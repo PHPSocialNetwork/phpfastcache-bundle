@@ -1,8 +1,8 @@
 {
-    "name": "phpfastcache/phpssdb",
-    "type" : "library",
-    "description": "PHP SSDB Driver for phpFastCache",
-    "keywords": ["cache", "ssdb", "driver"],
+    "name": "phpfastcache/phpfastcache-bundle",
+    "type" : "symfony-bundle",
+    "description": "PHP Bundle",
+    "keywords": ["cache", "phpfastcache", "symfony", "php", "bundle"],
     "homepage": "http://www.phpfastcache.com",
     "license": "MIT",
     "authors": [
@@ -20,11 +20,11 @@
             }
         ],
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.5.0"
     },
     "autoload": {
         "psr-4": {
-            "phpssdb\\": "src/phpssdb/"
+            "phpssdb\\": "src/phpfastcache-bundle/"
         }
     }
 }

@@ -1,3 +1,3 @@
-# phpssdb
+# phpfastcache-bundle
 
 Readme will be completed coming soon...
