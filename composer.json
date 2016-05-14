@@ -5,6 +5,7 @@
     "keywords": ["cache", "phpfastcache", "symfony", "php", "bundle"],
     "homepage": "http://www.phpfastcache.com",
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
             {
                 "name": "Khoa Bui",
@@ -26,7 +27,7 @@
             }
         ],
     "require": {
-        "symfony/symfony": "3.0.*",
+        "symfony/symfony": "^2.8|3.*",
         "phpfastcache/phpfastcache": "v5.x-dev"
     },
     "autoload": {
