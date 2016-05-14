@@ -25,6 +25,6 @@
 
     },
     "autoload": {
-        "psr-4": { "phpFastCache\\CacheBundle\\": "" }
+        "psr-4": { "phpFastCache\\Bundle\\": "" }
     }
 }
