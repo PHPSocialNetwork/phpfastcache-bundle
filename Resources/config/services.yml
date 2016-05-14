@@ -1,0 +1,8 @@
+parameters:
+    php_fast_cache.cache.class: phpFastCache\Bundle\Service\Cache
+
+services:
+    php_fast_cache.cache.service:
+        class: "%php_fast_cache.cache.class%"
+        arguments:
+            - "%phpfastcache%"
