@@ -20,9 +20,8 @@
             }
         ],
     "require": {
-        "symfony/symfony": "^2.8|3.*",
+        "symfony/symfony": "^2.8 || 3.*",
         "phpfastcache/phpfastcache": "v5.x-dev"
-
     },
     "autoload": {
         "psr-4": { "phpFastCache\\Bundle\\": "" }
