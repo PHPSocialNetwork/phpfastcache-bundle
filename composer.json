@@ -23,8 +23,6 @@
         "php": ">=5.5.0"
     },
     "autoload": {
-        "psr-4": {
-            "phpssdb\\": "src/phpfastcache-bundle/"
-        }
+        "psr-4": { "phpFastCache\\CacheBundle\\": "" }
     }
 }
