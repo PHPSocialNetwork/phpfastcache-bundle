@@ -3,7 +3,7 @@
 {% block toolbar %}
     {% set icon %}
         <span class="icon">{{ include('@phpFastCache/data_collector/icon.svg') }}</span>
-        <span class="sf-toolbar-value">{{ collector.size|sizeFormat }}</span>
+        <span class="sf-toolbar-value">{{ collector.size|sizeFormat(1) }}</span>
     {% endset %}
 
     {{ include('@WebProfiler/Profiler/toolbar_item.html.twig') }}
@@ -30,7 +30,7 @@
                             </tr>
                             <tr>
                                 <th>Size</th>
-                                <td>{{ cache.stats.size|sizeFormat }}</td>
+                                <td>{{ cache.stats.size|sizeFormat(1) }}</td>
                             </tr>
                             <tr>
                                 <th>Data</th>
@@ -38,7 +38,7 @@
                             </tr>
                             <tr>
                                 <th>RawData</th>
-                                <td>{{ cache.stats.rawData }}</td>
+                                <td>{{ dump(cache.stats.rawData) }}</td>
                             </tr>
                         </tbody>
                     </table>
