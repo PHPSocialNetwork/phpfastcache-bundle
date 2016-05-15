@@ -1,6 +1,7 @@
 parameters:
     php_fast_cache.cache.class: phpFastCache\Bundle\Service\Cache
     php_fast_cache.data_collector.class: phpFastCache\Bundle\DataCollector\CacheCollector
+    php_fast_cache.human_readable.class: phpFastCache\Bundle\Twig\HumanReadableExtension
 
 services:
     phpfastcache:
@@ -19,3 +20,8 @@ services:
                 template: '@phpFastCache/data_collector/template.html.twig'
                 id:       'phpfastcache.request_collector'
                 priority: 300
+
+    phpfastcache.human_readable_size:
+        class: "%php_fast_cache.human_readable.class%"
+        tags:
+            - { name: twig.extension }

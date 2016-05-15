@@ -3,7 +3,7 @@
 {% block toolbar %}
     {% set icon %}
         <span class="icon">{{ include('@phpFastCache/data_collector/icon.svg') }}</span>
-        <span class="sf-toolbar-value">PhpFastCache</span>
+        <span class="sf-toolbar-value">{{ collector.size|sizeFormat }}</span>
     {% endset %}
 
     {{ include('@WebProfiler/Profiler/toolbar_item.html.twig') }}
@@ -18,18 +18,30 @@
 
 {% block panel %}
     <div class="sf-tabs">
-        {% for name, cache in collector.cache.instances %}
+        {% for name, cache in collector.caches %}
             <div class="tab">
                 <h3 class="tab-title">{{ name }}</h3>
                 <div class="tab-content">
-                    <h3>Info</h3>
-                    {{ dump(cache.stats.info) }}
-                    <h3>Size</h3>
-                    {{ dump(cache.stats.size) }}
-                    <h3>Data</h3>
-                    {{ dump(cache.stats.data) }}
-                    <h3>RawData</h3>
-                    {{ dump(cache.stats.rawData) }}
+                    <table class="{{ class|default('') }}">
+                        <tbody>
+                            <tr>
+                                <th>Info</th>
+                                <td>{{ cache.stats.info }}</td>
+                            </tr>
+                            <tr>
+                                <th>Size</th>
+                                <td>{{ cache.stats.size|sizeFormat }}</td>
+                            </tr>
+                            <tr>
+                                <th>Data</th>
+                                <td>{{ cache.stats.data }}</td>
+                            </tr>
+                            <tr>
+                                <th>RawData</th>
+                                <td>{{ cache.stats.rawData }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         {% endfor %}

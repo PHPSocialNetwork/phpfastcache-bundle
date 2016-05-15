@@ -32,18 +32,35 @@ class CacheCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
+        $size = 0;
+        /** @var  $cache */
+        foreach ($this->cache->getInstances() as $cache) {
+            if ($cache->getStats()->getSize()) {
+                $size += $cache->getStats()->getSize();
+            }
+        }
         $this->data = [
-            'cache' => $this->cache,
+            'caches' => $this->cache->getInstances(),
+            'size'   => $this->cache->size_format($size),
         ];
     }
 
-    public function getCache()
+    public function getCaches()
     {
         /**
-         * @var  $name
+         * @var                                $name
          * @var ExtendedCacheItemPoolInterface $cache
          */
-        return $this->data['cache'];
+        return $this->data['caches'];
+    }
+
+    public function getSize()
+    {
+        /**
+         * @var                                $name
+         * @var ExtendedCacheItemPoolInterface $cache
+         */
+        return $this->data['size'];
     }
 
     public function getName()
