@@ -34,15 +34,22 @@ class CacheCollector extends DataCollector
     {
         $size = 0;
         $stats = [];
+        $instances = [];
+
         /** @var  $cache */
-        foreach ($this->cache->getInstances() as $name => $cache) {
+        foreach ($this->cache->getInstances() as $instanceName => $cache) {
             if ($cache->getStats()->getSize()) {
                 $size += $cache->getStats()->getSize();
             }
-            $stats[$name] = $cache->getStats();
+            $stats[$instanceName] = $cache->getStats();
+            $instances[$instanceName] = [
+                'driverName' => $cache->getDriverName(),
+                'driverConfig' => $cache->getConfig()
+            ];
         }
 
         $this->data = [
+            'instances' => $instances,
             'stats' => $stats,
             'size'   => $size
         ];

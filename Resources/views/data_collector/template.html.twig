@@ -49,20 +49,28 @@
                     <table class="{{ class|default('') }}">
                         <tbody>
                         <tr>
-                            <th>Info</th>
+                            <th>Driver Name</th>
+                            <td>{{ collector.instances[name].driverName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Driver Info</th>
                             <td>{{ stat.info }}</td>
                         </tr>
                         <tr>
-                            <th>Size</th>
+                            <th>Driver Size</th>
                             <td>{{ stat.size|sizeFormat(1) }}</td>
                         </tr>
                         <tr>
-                            <th>Data</th>
+                            <th>Driver Data</th>
                             <td>{{ stat.data }}</td>
                         </tr>
                         <tr>
-                            <th>RawData</th>
+                            <th>Driver RawData</th>
                             <td>{{ dump(stat.rawData) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Driver Config</th>
+                            <td>{{ dump(collector.instances[name].driverConfig) }}</td>
                         </tr>
                         </tbody>
                     </table>
