@@ -29,7 +29,6 @@ class Cache
     public function __construct($drivers)
     {
         foreach ($drivers['drivers'] as $name => $driver) {
-            dump($driver);
             $this->createInstance($name, CacheManager::getInstance($driver['type'], $driver['parameters']));
         }
     }
@@ -45,7 +44,7 @@ class Cache
     public function createInstance($name, ExtendedCacheItemPoolInterface $instance)
     {
         if (array_key_exists($name, $this->cacheInstances) && $this->cacheInstances[$name] instanceof ExtendedCacheItemPoolInterface) {
-            throw new phpFastCacheDriverException("Driver named $name already exists");
+            throw new phpFastCacheDriverException("Cache instance '{$name}' already exists");
         }
         $this->cacheInstances[$name] = $instance;
     }
@@ -62,10 +61,10 @@ class Cache
     public function get($name)
     {
         if (!array_key_exists($name, $this->cacheInstances)) {
-            throw new phpFastCacheDriverException("Driver named $name not exists");
+            throw new phpFastCacheDriverException("Cache instance '{$name}' not exists");
         }
         if (!$this->cacheInstances[$name] instanceof ExtendedCacheItemPoolInterface) {
-            throw new phpFastCacheDriverException("Driver named $name already instanciated");
+            throw new phpFastCacheDriverException("Cache instance '{$name}' already instanciated");
         }
 
         return $this->cacheInstances[$name];
