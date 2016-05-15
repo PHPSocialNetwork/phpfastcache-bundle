@@ -20,10 +20,27 @@
     <span class="label">
         <span class="icon">{{ include('@phpFastCache/data_collector/icon.svg') }}</span>
         <strong>PhpFastCache</strong>
+        <span class="count">
+            <span>{{ collector.stats|length }}</span>
+        </span>
     </span>
 {% endblock %}
 
 {% block panel %}
+    <h2>PhpFastCache Metrics</h2>
+
+    <div class="metrics">
+        <div class="metric">
+            <span class="value"> {{ collector.size|sizeFormat(1) }}</span>
+            <span class="label">Total Size</span>
+        </div>
+        <div class="metric">
+            <span class="value"> {{ collector.stats|length }}</span>
+            <span class="label">Cache Instances</span>
+        </div>
+    </div>
+
+    <h2>PhpFastCache Cache Instance</h2>
     <div class="sf-tabs">
         {% for name, stat in collector.stats %}
             <div class="tab">
@@ -31,22 +48,22 @@
                 <div class="tab-content">
                     <table class="{{ class|default('') }}">
                         <tbody>
-                            <tr>
-                                <th>Info</th>
-                                <td>{{ stat.info }}</td>
-                            </tr>
-                            <tr>
-                                <th>Size</th>
-                                <td>{{ stat.size|sizeFormat(1) }}</td>
-                            </tr>
-                            <tr>
-                                <th>Data</th>
-                                <td>{{ stat.data }}</td>
-                            </tr>
-                            <tr>
-                                <th>RawData</th>
-                                <td>{{ dump(stat.rawData) }}</td>
-                            </tr>
+                        <tr>
+                            <th>Info</th>
+                            <td>{{ stat.info }}</td>
+                        </tr>
+                        <tr>
+                            <th>Size</th>
+                            <td>{{ stat.size|sizeFormat(1) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Data</th>
+                            <td>{{ stat.data }}</td>
+                        </tr>
+                        <tr>
+                            <th>RawData</th>
+                            <td>{{ dump(stat.rawData) }}</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
