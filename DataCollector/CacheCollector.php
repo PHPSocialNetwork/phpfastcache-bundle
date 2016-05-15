@@ -43,9 +43,6 @@ class CacheCollector extends DataCollector
          * @var  $name
          * @var ExtendedCacheItemPoolInterface $cache
          */
-        foreach($this->data['cache'] as $name => $cache) {
-            var_dump($cache->getStats());
-        }
         return $this->data['cache'];
     }
 
