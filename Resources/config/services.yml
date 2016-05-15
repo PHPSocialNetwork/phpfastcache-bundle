@@ -1,8 +1,21 @@
 parameters:
     php_fast_cache.cache.class: phpFastCache\Bundle\Service\Cache
+    php_fast_cache.data_collector.class: phpFastCache\Bundle\DataCollector\CacheCollector
 
 services:
     phpfastcache:
         class: "%php_fast_cache.cache.class%"
         arguments:
             - "%phpfastcache%"
+
+    phpfastcache.request_collector:
+        class: "%php_fast_cache.data_collector.class%"
+        arguments:
+            - "@phpfastcache"
+        public: false
+        tags:
+            -
+                name:     data_collector
+                template: '@phpFastCache/data_collector/template.html.twig'
+                id:       'phpfastcache.request_collector'
+                priority: 300

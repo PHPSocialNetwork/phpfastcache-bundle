@@ -69,4 +69,14 @@ class Cache
 
         return $this->cacheInstances[$name];
     }
+
+    /**
+     * Return all cache instances
+     *
+     * @return \phpFastCache\Cache\ExtendedCacheItemPoolInterface[]
+     */
+    public function getInstances()
+    {
+        return $this->cacheInstances;
+    }
 }
