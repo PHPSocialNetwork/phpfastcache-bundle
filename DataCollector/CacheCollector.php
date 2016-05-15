@@ -33,25 +33,24 @@ class CacheCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $size = 0;
+        $stats = [];
         /** @var  $cache */
-        foreach ($this->cache->getInstances() as $cache) {
+        foreach ($this->cache->getInstances() as $name => $cache) {
             if ($cache->getStats()->getSize()) {
                 $size += $cache->getStats()->getSize();
             }
+            $stats[$name] = $cache->getStats();
         }
+
         $this->data = [
-            'caches' => $this->cache->getInstances(),
-            'size'   => $size,
+            'stats' => $stats,
+            'size'   => $size
         ];
     }
 
-    public function getCaches()
+    public function getStats()
     {
-        /**
-         * @var                                $name
-         * @var ExtendedCacheItemPoolInterface $cache
-         */
-        return $this->data['caches'];
+        return $this->data['stats'];
     }
 
     public function getSize()
@@ -65,6 +64,6 @@ class CacheCollector extends DataCollector
 
     public function getName()
     {
-        return 'phpfastcache.request_collector';
+        return 'phpfastcache';
     }
 }

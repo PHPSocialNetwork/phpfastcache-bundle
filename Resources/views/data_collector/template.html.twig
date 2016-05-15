@@ -6,6 +6,13 @@
         <span class="sf-toolbar-value">{{ collector.size|sizeFormat(1) }}</span>
     {% endset %}
 
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Cache instances</b>
+            <span>{{ collector.stats|length }}</span>
+        </div>
+    {% endset %}
+
     {{ include('@WebProfiler/Profiler/toolbar_item.html.twig') }}
 {% endblock %}
 
@@ -18,7 +25,7 @@
 
 {% block panel %}
     <div class="sf-tabs">
-        {% for name, cache in collector.caches %}
+        {% for name, stat in collector.stats %}
             <div class="tab">
                 <h3 class="tab-title">{{ name }}</h3>
                 <div class="tab-content">
@@ -26,19 +33,19 @@
                         <tbody>
                             <tr>
                                 <th>Info</th>
-                                <td>{{ cache.stats.info }}</td>
+                                <td>{{ stat.info }}</td>
                             </tr>
                             <tr>
                                 <th>Size</th>
-                                <td>{{ cache.stats.size|sizeFormat(1) }}</td>
+                                <td>{{ stat.size|sizeFormat(1) }}</td>
                             </tr>
                             <tr>
                                 <th>Data</th>
-                                <td>{{ cache.stats.data }}</td>
+                                <td>{{ stat.data }}</td>
                             </tr>
                             <tr>
                                 <th>RawData</th>
-                                <td>{{ dump(cache.stats.rawData) }}</td>
+                                <td>{{ dump(stat.rawData) }}</td>
                             </tr>
                         </tbody>
                     </table>

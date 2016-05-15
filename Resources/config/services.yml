@@ -18,7 +18,7 @@ services:
             -
                 name:     data_collector
                 template: '@phpFastCache/data_collector/template.html.twig'
-                id:       'phpfastcache.request_collector'
+                id:       'phpfastcache'
                 priority: 300
 
     phpfastcache.human_readable_size:
