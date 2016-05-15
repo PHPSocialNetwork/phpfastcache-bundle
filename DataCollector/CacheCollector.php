@@ -41,7 +41,7 @@ class CacheCollector extends DataCollector
         }
         $this->data = [
             'caches' => $this->cache->getInstances(),
-            'size'   => $this->cache->size_format($size),
+            'size'   => $size,
         ];
     }
 

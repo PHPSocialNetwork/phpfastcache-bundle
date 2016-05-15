@@ -18,7 +18,7 @@ class HumanReadableExtension extends \Twig_Extension
         );
     }
     /**
-     * @param     $bytes
+     * @param int $bytes
      * @param int $decimals
      *
      * @return string
