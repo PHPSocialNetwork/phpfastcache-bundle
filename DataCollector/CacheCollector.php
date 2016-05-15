@@ -60,6 +60,11 @@ class CacheCollector extends DataCollector
         return $this->data['stats'];
     }
 
+    public function getInstances()
+    {
+        return $this->data['instances'];
+    }
+
     public function getSize()
     {
         /**
