@@ -4,6 +4,7 @@ namespace phpFastCache\Bundle\DataCollector;
 
 use phpFastCache\Bundle\Service\Cache;
 use phpFastCache\Cache\ExtendedCacheItemPoolInterface;
+use phpFastCache\CacheManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -35,6 +36,7 @@ class CacheCollector extends DataCollector
         $size = 0;
         $stats = [];
         $instances = [];
+        $driverUsed = [];
 
         /** @var  $cache */
         foreach ($this->cache->getInstances() as $instanceName => $cache) {
@@ -43,15 +45,21 @@ class CacheCollector extends DataCollector
             }
             $stats[$instanceName] = $cache->getStats();
             $instances[$instanceName] = [
-                'driverName' => $cache->getDriverName(),
-                'driverConfig' => $cache->getConfig()
+              'driverName' => $cache->getDriverName(),
+              'driverConfig' => $cache->getConfig()
             ];
+            $driverUsed[$cache->getDriverName()] = get_class($cache);
         }
 
         $this->data = [
-            'instances' => $instances,
-            'stats' => $stats,
-            'size'   => $size
+          'driverUsed' => $driverUsed,
+          'instances' => $instances,
+          'stats' => $stats,
+          'size'   => $size,
+          'hits' => [
+              'read' => (int) CacheManager::$ReadHits,
+              'write' => (int) CacheManager::$WriteHits,
+          ]
         ];
     }
 
@@ -63,6 +71,16 @@ class CacheCollector extends DataCollector
     public function getInstances()
     {
         return $this->data['instances'];
+    }
+
+    public function getDriverUsed()
+    {
+        return $this->data['driverUsed'];
+    }
+
+    public function getHits()
+    {
+        return $this->data['hits'];
     }
 
     public function getSize()

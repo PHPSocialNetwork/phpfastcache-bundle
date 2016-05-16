@@ -2,6 +2,7 @@
 
 namespace phpFastCache\Bundle\DependencyInjection;
 
+use phpFastCache\CacheManager;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -27,8 +28,8 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
-                            ->enumNode('type')->isRequired()->values(array('Files', 'MongoDb', 'Apc'))->end() // @TODO : Add all available drivers
-                            ->arrayNode('parameters')->isRequired()->prototype('scalar')->end()
+                            ->enumNode('type')->isRequired()->values(CacheManager::getStaticAllDrivers())->end() // @TODO : Add all available drivers
+                            ->arrayNode('parameters')->isRequired()->prototype('variable')->end()
                         ->end()
                     ->end()
                 ->end() // drivers

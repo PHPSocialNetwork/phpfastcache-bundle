@@ -11,6 +11,29 @@
             <b>Cache instances</b>
             <span class="sf-toolbar-status">{{ collector.stats|length }}</span>
         </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Cache Size</b>
+            <span class="sf-toolbar-status">{{ collector.size|sizeFormat(1) }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Read hits</b>
+            <span class="sf-toolbar-status">{{ collector.hits.read }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Write hits</b>
+            <span class="sf-toolbar-status">{{ collector.hits.write }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Cache Driver</b>
+            {% if collector.driverUsed|length == 0 %}
+                <span>None</span>
+            {% elseif collector.driverUsed|length == 1 %}
+                <span><abbr title="{{ collector.driverUsed|first }}">{{ collector.driverUsed|keys|first }}</abbr></span>
+            {% else %}
+                <span>Multiple ({{ collector.driverUsed|length }})</span>
+            {% endif %}
+        </div>
+
     {% endset %}
 
     {{ include('@WebProfiler/Profiler/toolbar_item.html.twig') }}
@@ -38,6 +61,18 @@
             <span class="value"> {{ collector.stats|length }}</span>
             <span class="label">Cache Instances</span>
         </div>
+        <div class="metric">
+            <span class="value"> {{ collector.driverUsed|length  }}</span>
+            <span class="label">Drivers used</span>
+        </div>
+        <div class="metric">
+            <span class="value"> {{ collector.hits.read  }}</span>
+            <span class="label">Read hits</span>
+        </div>
+        <div class="metric">
+            <span class="value"> {{ collector.hits.write  }}</span>
+            <span class="label">Write hits</span>
+        </div>
     </div>
 
     <h2>PhpFastCache Cache Instance</h2>
@@ -50,11 +85,11 @@
                         <tbody>
                         <tr>
                             <th>Driver Name</th>
-                            <td>{{ collector.instances[name].driverName }}</td>
+                            <td><strong>{{ collector.instances[name].driverName }}</strong> (<small><code>{{ collector.driverUsed[collector.instances[name].driverName] }}</code></small>)</td>
                         </tr>
                         <tr>
                             <th>Driver Info</th>
-                            <td>{{ stat.info }}</td>
+                            <td>{{ stat.info|nl2br }}</td>
                         </tr>
                         <tr>
                             <th>Driver Size</th>
