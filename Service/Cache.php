@@ -12,6 +12,8 @@ use phpFastCache\Exceptions\phpFastCacheDriverException;
  */
 class Cache
 {
+    private $drivers = [];
+
     /**
      * Contains all cache instances
      *
@@ -28,25 +30,23 @@ class Cache
      */
     public function __construct($drivers)
     {
-        foreach ($drivers['drivers'] as $name => $driver) {
-            $this->createInstance($name, CacheManager::getInstance($driver['type'], $driver['parameters']));
-        }
+        $this->drivers = (array) $drivers[ 'drivers' ];
     }
 
     /**
      * Set a new cache instance
      *
-     * @param string                         $name
+     * @param string $name
      * @param ExtendedCacheItemPoolInterface $instance
      *
      * @throws \phpFastCache\Exceptions\phpFastCacheDriverException
      */
     public function createInstance($name, ExtendedCacheItemPoolInterface $instance)
     {
-        if (array_key_exists($name, $this->cacheInstances) && $this->cacheInstances[$name] instanceof ExtendedCacheItemPoolInterface) {
+        if (array_key_exists($name, $this->cacheInstances) && $this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface) {
             throw new phpFastCacheDriverException("Cache instance '{$name}' already exists");
         }
-        $this->cacheInstances[$name] = $instance;
+        $this->cacheInstances[ $name ] = $instance;
     }
 
     /**
@@ -61,13 +61,17 @@ class Cache
     public function get($name)
     {
         if (!array_key_exists($name, $this->cacheInstances)) {
-            throw new phpFastCacheDriverException("Cache instance '{$name}' not exists");
-        }
-        if (!$this->cacheInstances[$name] instanceof ExtendedCacheItemPoolInterface) {
-            throw new phpFastCacheDriverException("Cache instance '{$name}' already instanciated");
+            if (array_key_exists($name, $this->drivers)) {
+                $this->createInstance($name, CacheManager::getInstance($this->drivers[ $name ][ 'type' ], $this->drivers[ $name ][ 'parameters' ]));
+                if (!$this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface) {
+                    throw new phpFastCacheDriverException("Cache instance '{$name}' does not implements ExtendedCacheItemPoolInterface");
+                }
+            } else {
+                throw new phpFastCacheDriverException("Cache instance '{$name}' not exists, check your config.yml");
+            }
         }
 
-        return $this->cacheInstances[$name];
+        return $this->cacheInstances[ $name ];
     }
 
     /**
