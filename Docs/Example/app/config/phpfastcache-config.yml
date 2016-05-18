@@ -1,0 +1,57 @@
+# PhpFastCache configuration
+php_fast_cache:
+    drivers:
+        filecache:
+            type: Files
+            parameters:
+                path: %kernel.cache_dir%/phpfastcache/
+        memcachecache:
+            type: Memcache
+            parameters: []
+        apccache:
+            type: Apc
+            parameters: []
+        sqlitecache:
+            type: Sqlite
+            parameters:
+                path: %kernel.cache_dir%/phpfastcache2/
+        rediscache:
+            type: Redis
+            parameters: []
+        mongodbcache:
+            type: Mongodb
+            parameters:
+                host: '127.0.0.1'
+                port: '27017'
+                username: ''
+                password: ''
+                timeout: '1'
+        couchbasecache:
+            type: Couchbase
+            parameters:
+                host: 'couchbase.host.net'
+                port: '11211'
+                username: 'The_Username'
+                password: 'The_Password'
+                timeout: '1'
+                buckets:
+                    -
+                        bucket: 'Cache'
+                        password: 'couchbase-test'
+        leveldbcache:
+            type: Leveldb
+            parameters:
+                path: %kernel.cache_dir%/phpfastcache_leveldb/
+                securityKey: optionnalSetting
+        ssdbcache:
+            type: Ssdb
+            parameters: []
+        apcucache:
+            type: Apcu
+            parameters: []
+        xcachecache:
+            type: Xcache
+            parameters: []
+        devnullcache:
+            type: Devnull
+            parameters: []
