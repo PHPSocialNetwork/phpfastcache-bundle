@@ -27,9 +27,9 @@ class CacheCollector extends DataCollector
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request  $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Symfony\Component\HttpFoundation\Response $response
-     * @param \Exception|null                            $exception
+     * @param \Exception|null $exception
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
@@ -43,55 +43,81 @@ class CacheCollector extends DataCollector
             if ($cache->getStats()->getSize()) {
                 $size += $cache->getStats()->getSize();
             }
-            $stats[$instanceName] = $cache->getStats();
-            $instances[$instanceName] = [
+            $stats[ $instanceName ] = $cache->getStats();
+            $instances[ $instanceName ] = [
               'driverName' => $cache->getDriverName(),
-              'driverConfig' => $cache->getConfig()
+              'driverConfig' => $cache->getConfig(),
             ];
-            $driverUsed[$cache->getDriverName()] = get_class($cache);
+            $driverUsed[ $cache->getDriverName() ] = get_class($cache);
         }
 
         $this->data = [
           'driverUsed' => $driverUsed,
           'instances' => $instances,
           'stats' => $stats,
-          'size'   => $size,
+          'size' => $size,
           'hits' => [
-              'read' => (int) CacheManager::$ReadHits,
-              'write' => (int) CacheManager::$WriteHits,
-          ]
+            'read' => (int) CacheManager::$ReadHits,
+            'write' => (int) CacheManager::$WriteHits,
+          ],
+          'coreConfig' => [
+                'namespacePath' => CacheManager::getNamespacePath()
+          ],
         ];
     }
 
+    /**
+     * @return mixed
+     */
     public function getStats()
     {
-        return $this->data['stats'];
+        return $this->data[ 'stats' ];
     }
 
+    /**
+     * @return mixed
+     */
     public function getInstances()
     {
-        return $this->data['instances'];
+        return $this->data[ 'instances' ];
     }
 
+    /**
+     * @return mixed
+     */
     public function getDriverUsed()
     {
-        return $this->data['driverUsed'];
+        return $this->data[ 'driverUsed' ];
     }
 
+    /**
+     * @return mixed
+     */
     public function getHits()
     {
-        return $this->data['hits'];
+        return $this->data[ 'hits' ];
     }
 
+    /**
+     * @return mixed
+     */
     public function getSize()
     {
-        /**
-         * @var                                $name
-         * @var ExtendedCacheItemPoolInterface $cache
-         */
-        return $this->data['size'];
+        return $this->data[ 'size' ];
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCoreConfig()
+    {
+        return $this->data[ 'coreConfig' ];
+    }
+
+
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'phpfastcache';

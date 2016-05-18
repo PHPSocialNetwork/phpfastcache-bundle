@@ -62,15 +62,15 @@
             <span class="label">Cache Instances</span>
         </div>
         <div class="metric">
-            <span class="value"> {{ collector.driverUsed|length  }}</span>
+            <span class="value"> {{ collector.driverUsed|length }}</span>
             <span class="label">Drivers used</span>
         </div>
         <div class="metric">
-            <span class="value"> {{ collector.hits.read  }}</span>
+            <span class="value"> {{ collector.hits.read }}</span>
             <span class="label">Read hits</span>
         </div>
         <div class="metric">
-            <span class="value"> {{ collector.hits.write  }}</span>
+            <span class="value"> {{ collector.hits.write }}</span>
             <span class="label">Write hits</span>
         </div>
     </div>
@@ -85,7 +85,11 @@
                         <tbody>
                         <tr>
                             <th>Driver Name</th>
-                            <td><strong>{{ collector.instances[name].driverName }}</strong> (<small><code>{{ collector.driverUsed[collector.instances[name].driverName] }}</code></small>)</td>
+                            <td><strong>{{ collector.instances[name].driverName }}</strong> (
+                                <small><code>{{ collector.driverUsed[collector.instances[name].driverName] }}</code>
+                                </small>
+                                )
+                            </td>
                         </tr>
                         <tr>
                             <th>Driver Info</th>
@@ -113,4 +117,21 @@
             </div>
         {% endfor %}
     </div>
+    <h2>PhpFastCache Core Config</h2>
+    <table class="">
+        <thead>
+        <tr>
+            <th class="key" scope="col">Key</th>
+            <th scope="col">Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key, value in collector.coreConfig %}
+            <tr>
+                <th>{{ key }}</th>
+                <td>{{ value }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
