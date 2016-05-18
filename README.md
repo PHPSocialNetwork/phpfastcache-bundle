@@ -21,7 +21,7 @@ php_fast_cache:
 ```
 * More examples in Docs/Example/app/config
 
-##### :wrench: Setup your AppKernel.php by adding the phpFastCache Bundle
+#### :wrench: Step 3: Setup your AppKernel.php by adding the phpFastCache Bundle
 
 ```php
 $bundles[] = new phpFastCache\Bundle\phpFastCacheBundle();
@@ -29,7 +29,7 @@ $bundles[] = new phpFastCache\Bundle\phpFastCacheBundle();
 
 * See the file Docs/Example/app/AppKernel.php for more information.
 
-#### :rocket: Accelerate your app by making use of PhpFastCache service
+#### :rocket: Step 4: Accelerate your app by making use of PhpFastCache service
 
 ```php
 public function indexAction(Request $request)
