@@ -18,18 +18,19 @@ class HumanReadableExtension extends \Twig_Extension
         );
     }
     /**
-     * @param int $bytes
-     * @param int $decimals
+     * @param int $bytes Bytes/Octets
+     * @param int $decimals Number for decimals to return
+     * @param bool $octetFormat Use Octet notation instead of Bytes
      *
      * @return string
      */
-    public function size_format($bytes, $decimals = 2)
+    public function size_format($bytes, $decimals = 2, $octetFormat = false)
     {
         $bytes = (int) $bytes;
         $sz     = 'BKMGTP';
         $factor = floor(( strlen($bytes) - 1 ) / 3);
 
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[ $factor ].( $factor ? 'o' : '' );
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[ $factor ].( $factor ? ($octetFormat ? 'O' : 'B') : '' );
     }
 
     /**
