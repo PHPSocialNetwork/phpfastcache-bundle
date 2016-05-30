@@ -14,7 +14,7 @@ class HumanReadableExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_Filter('sizeFormat', [$this, 'size_format']),
+            new \Twig_SimpleFilter('sizeFormat', [$this, 'size_format']),
         );
     }
     /**
