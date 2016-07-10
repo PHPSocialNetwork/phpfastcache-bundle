@@ -5,6 +5,7 @@ namespace phpFastCache\Bundle\Service;
 use phpFastCache\Cache\ExtendedCacheItemPoolInterface;
 use phpFastCache\CacheManager;
 use phpFastCache\Exceptions\phpFastCacheDriverException;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Class Cache
@@ -12,7 +13,15 @@ use phpFastCache\Exceptions\phpFastCacheDriverException;
  */
 class Cache
 {
+    /**
+     * @var array
+     */
     private $drivers = [];
+
+    /**
+     * @var Stopwatch
+     */
+    protected $stopwatch;
 
     /**
      * Contains all cache instances
@@ -25,12 +34,14 @@ class Cache
      * Cache constructor.
      *
      * @param $drivers
+     * @param Stopwatch $stopwatch
      *
      * @throws \phpFastCache\Exceptions\phpFastCacheDriverException
      */
-    public function __construct($drivers)
+    public function __construct($drivers, Stopwatch $stopwatch = null)
     {
         $this->drivers = (array) $drivers[ 'drivers' ];
+        $this->stopwatch = $stopwatch;
     }
 
     /**
@@ -60,6 +71,10 @@ class Cache
      */
     public function get($name)
     {
+        if ($this->stopwatch) {
+            $this->stopwatch->start(__METHOD__ . "('{$name}')");
+        }
+
         if (!array_key_exists($name, $this->cacheInstances)) {
             if (array_key_exists($name, $this->drivers)) {
                 $this->createInstance($name, CacheManager::getInstance($this->drivers[ $name ][ 'type' ], $this->drivers[ $name ][ 'parameters' ]));
@@ -71,6 +86,9 @@ class Cache
             }
         }
 
+        if ($this->stopwatch) {
+            $this->stopwatch->stop(__METHOD__ . "('{$name}')");
+        }
         return $this->cacheInstances[ $name ];
     }
 

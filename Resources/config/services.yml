@@ -8,6 +8,7 @@ services:
         class: "%php_fast_cache.cache.class%"
         arguments:
             - "%phpfastcache%"
+            - "@?debug.stopwatch"
 
     phpfastcache.request_collector:
         class: "%php_fast_cache.data_collector.class%"
