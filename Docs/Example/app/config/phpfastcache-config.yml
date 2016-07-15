@@ -41,7 +41,7 @@ php_fast_cache:
         leveldbcache:
             type: Leveldb
             parameters:
-                path: %kernel.cache_dir%/phpfastcache_leveldb/
+                path: "%kernel.cache_dir%/phpfastcache_leveldb/"
                 securityKey: optionnalSetting
         ssdbcache:
             type: Ssdb
