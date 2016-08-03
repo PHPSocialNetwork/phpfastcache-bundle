@@ -7,31 +7,41 @@
     {% endset %}
 
     {% set text %}
-        <div class="sf-toolbar-info-piece">
-            <b>Cache instances</b>
-            <span class="sf-toolbar-status">{{ collector.stats|length }}</span>
+        <div class="sf-toolbar-info-group">
+            <div class="sf-toolbar-info-piece">
+                <b>API version</b>
+                <span class="sf-toolbar-status">{{ collector.ApiVersion }}</span>
+            </div>
         </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Cache Size</b>
-            <span class="sf-toolbar-status">{{ collector.size|sizeFormat(1) }}</span>
+        <div class="sf-toolbar-info-group">
+            <div class="sf-toolbar-info-piece">
+                <b>Read hits</b>
+                <span class="sf-toolbar-status">{{ collector.hits.read }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Write hits</b>
+                <span class="sf-toolbar-status">{{ collector.hits.write }}</span>
+            </div>
         </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Read hits</b>
-            <span class="sf-toolbar-status">{{ collector.hits.read }}</span>
-        </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Write hits</b>
-            <span class="sf-toolbar-status">{{ collector.hits.write }}</span>
-        </div>
-        <div class="sf-toolbar-info-piece">
-            <b>Cache Driver</b>
-            {% if collector.driverUsed|length == 0 %}
-                <span>None</span>
-            {% elseif collector.driverUsed|length == 1 %}
-                <span><abbr title="{{ collector.driverUsed|first }}">{{ collector.driverUsed|keys|first }}</abbr></span>
-            {% else %}
-                <span>Multiple ({{ collector.driverUsed|length }})</span>
-            {% endif %}
+        <div class="sf-toolbar-info-group">
+            <div class="sf-toolbar-info-piece">
+                <b>Cache instances</b>
+                <span class="sf-toolbar-status">{{ collector.stats|length }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Cache size</b>
+                <span class="sf-toolbar-status">{{ collector.size|sizeFormat(1) }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Cache Driver</b>
+                {% if collector.driverUsed|length == 0 %}
+                    <span>None</span>
+                {% elseif collector.driverUsed|length == 1 %}
+                    <span><abbr title="{{ collector.driverUsed|first }}">{{ collector.driverUsed|keys|first }}</abbr></span>
+                {% else %}
+                    <span>Multiple ({{ collector.driverUsed|length }})</span>
+                {% endif %}
+            </div>
         </div>
 
     {% endset %}
@@ -74,6 +84,10 @@
         <div class="metric">
             <span class="value"> {{ collector.hits.write }}</span>
             <span class="label">Write hits</span>
+        </div>
+        <div class="metric">
+            <span class="value"> {{ collector.apiVersion }}</span>
+            <span class="label">API Version</span>
         </div>
     </div>
 

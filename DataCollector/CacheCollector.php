@@ -2,6 +2,7 @@
 
 namespace phpFastCache\Bundle\DataCollector;
 
+use phpFastCache\Api as phpFastCacheApi;
 use phpFastCache\Bundle\Service\Cache;
 use phpFastCache\Cache\ExtendedCacheItemPoolInterface;
 use phpFastCache\CacheManager;
@@ -52,6 +53,7 @@ class CacheCollector extends DataCollector
         }
 
         $this->data = [
+          'apiVersion' => phpFastCacheApi::getVersion(),
           'driverUsed' => $driverUsed,
           'instances' => $instances,
           'stats' => $stats,
@@ -61,7 +63,7 @@ class CacheCollector extends DataCollector
             'write' => (int) CacheManager::$WriteHits,
           ],
           'coreConfig' => [
-                'namespacePath' => CacheManager::getNamespacePath()
+            'namespacePath' => CacheManager::getNamespacePath()
           ],
         ];
     }
@@ -112,6 +114,14 @@ class CacheCollector extends DataCollector
     public function getCoreConfig()
     {
         return $this->data[ 'coreConfig' ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApiVersion()
+    {
+        return $this->data[ 'apiVersion' ];
     }
 
 
