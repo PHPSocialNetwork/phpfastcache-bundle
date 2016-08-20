@@ -63,7 +63,7 @@ class CacheCollector extends DataCollector
             'write' => (int) CacheManager::$WriteHits,
           ],
           'coreConfig' => [
-                'namespacePath' => CacheManager::getNamespacePath()
+            'namespacePath' => CacheManager::getNamespacePath()
           ],
         ];
     }
