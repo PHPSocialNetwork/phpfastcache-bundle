@@ -17,7 +17,7 @@ php_fast_cache:
         filecache:
             type: Files
             parameters:
-                path: "%kernel.cache_dir%/phpfastcache/"
+                path: %kernel.cache_dir%/phpfastcache/
 ```
 * More examples in Docs/Example/app/config
 
