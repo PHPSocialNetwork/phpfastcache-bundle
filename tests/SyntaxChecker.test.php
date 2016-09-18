@@ -1,9 +1,9 @@
 <?php
-
 /**
  * @author Khoa Bui (khoaofgod)  <khoaofgod@gmail.com> http://www.phpfastcache.com
  * @author Georges.L (Geolim4)  <contact@geolim4.com>
  */
+
 function read_dir($dir, $ext = null)
 {
     $list = [];
