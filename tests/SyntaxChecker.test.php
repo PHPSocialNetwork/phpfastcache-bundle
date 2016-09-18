@@ -38,9 +38,7 @@ foreach ($list as $file) {
     /**
      * @todo Make the exclusions much cleaner
      */
-    if (strpos($file, '/vendor/composer') === false
-      && strpos($file, '/vendor/symfony') === false
-      && strpos($file, '/vendor/doctrine') === false
+    if (strpos($file, '/vendor/') === false
       && strpos($file, '/bin/stubs') === false
     ) {
         exec('php -l "' . $file . '"', $output, $status);
