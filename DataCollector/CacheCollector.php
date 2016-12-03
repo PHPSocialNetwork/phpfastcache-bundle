@@ -1,10 +1,24 @@
 <?php
 
+/**
+ *
+ * This file is part of phpFastCache.
+ *
+ * @license MIT License (MIT)
+ *
+ * For full copyright and license information, please see the docs/CREDITS.txt file.
+ *
+ * @author Georges.L (Geolim4)  <contact@geolim4.com>
+ * @author PastisD https://github.com/PastisD
+ * @author Khoa Bui (khoaofgod)  <khoaofgod@gmail.com> http://www.phpfastcache.com
+ *
+ */
+
 namespace phpFastCache\Bundle\DataCollector;
 
 use phpFastCache\Api as phpFastCacheApi;
+use phpFastCache\Bundle\phpFastCacheBundle;
 use phpFastCache\Bundle\Service\Cache;
-use phpFastCache\Cache\ExtendedCacheItemPoolInterface;
 use phpFastCache\CacheManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +30,11 @@ class CacheCollector extends DataCollector
      * @var \phpFastCache\Bundle\Service\Cache
      */
     private $cache;
+
+    /**
+     * @var array
+     */
+    private $twig_cache_blocks = [];
 
     /**
      * CacheCollector constructor.
@@ -53,7 +72,9 @@ class CacheCollector extends DataCollector
         }
 
         $this->data = [
+          'twigCacheBlocks' => $this->twig_cache_blocks,
           'apiVersion' => phpFastCacheApi::getVersion(),
+          'bundleVersion' => phpFastCacheBundle::VERSION,
           'apiChangelog' => phpFastCacheApi::getChangelog(),
           'driverUsed' => $driverUsed,
           'instances' => $instances,
@@ -64,7 +85,11 @@ class CacheCollector extends DataCollector
             'write' => (int) CacheManager::$WriteHits,
           ],
           'coreConfig' => [
-            'namespacePath' => CacheManager::getNamespacePath()
+            'namespacePath' => CacheManager::getNamespacePath(),
+          ],
+          'projectConfig' => [
+            'twig_driver' => $this->cache->getConfig()['twig_driver'],
+            'twig_block_debug' => $this->cache->getConfig()['twig_block_debug'],
           ],
         ];
     }
@@ -120,6 +145,14 @@ class CacheCollector extends DataCollector
     /**
      * @return mixed
      */
+    public function getProjectConfig()
+    {
+        return $this->data[ 'projectConfig' ];
+    }
+
+    /**
+     * @return mixed
+     */
     public function getApiVersion()
     {
         return $this->data[ 'apiVersion' ];
@@ -128,9 +161,42 @@ class CacheCollector extends DataCollector
     /**
      * @return mixed
      */
+    public function getBundleVersion()
+    {
+        return $this->data[ 'bundleVersion' ];
+    }
+
+    /**
+     * @return mixed
+     */
     public function getApiChangelog()
     {
         return $this->data[ 'apiChangelog' ];
+    }
+
+    /**
+     * @param string $blockName
+     * @param array $cacheBlock
+     * @return $this
+     */
+    public function setTwigCacheBlock($blockName, array $cacheBlock)
+    {
+        if(isset($this->twig_cache_blocks[$blockName])){
+            $this->twig_cache_blocks[$blockName] = array_merge($this->twig_cache_blocks[$blockName], $cacheBlock);
+        }else{
+            $this->twig_cache_blocks[$blockName] = $cacheBlock;
+        }
+
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTwigCacheBlocks()
+    {
+        return $this->data[ 'twigCacheBlocks' ];
     }
 
     /**

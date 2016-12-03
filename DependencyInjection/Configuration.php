@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * This file is part of phpFastCache.
@@ -37,6 +38,12 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('twig_driver')
+                    ->isRequired()
+                ->end()
+                ->booleanNode('twig_block_debug')
+                    ->defaultFalse()
+                ->end()
                 ->arrayNode('drivers')
                     ->useAttributeAsKey('name')
                     ->prototype('array')
@@ -45,7 +52,7 @@ class Configuration implements ConfigurationInterface
                             ->arrayNode('parameters')->isRequired()->prototype('variable')->end()
                         ->end()
                     ->end()
-                ->end() // drivers
+                ->end()
             ->end();
 
         return $treeBuilder;

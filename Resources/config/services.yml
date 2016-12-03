@@ -1,7 +1,9 @@
 parameters:
     php_fast_cache.cache.class: phpFastCache\Bundle\Service\Cache
-    php_fast_cache.data_collector.class: phpFastCache\Bundle\DataCollector\CacheCollector
-    php_fast_cache.human_readable.class: phpFastCache\Bundle\Twig\HumanReadableExtension
+    php_fast_cache.human_readable.class: phpFastCache\Bundle\Twig\HumanReadableExtension\Extension
+    php_fast_cache.twig_cache.class: phpFastCache\Bundle\Twig\CacheExtension\Extension
+    php_fast_cache.twig_cache_stategy.class: phpFastCache\Bundle\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy
+    php_fast_cache.twig_cache_provider.class: phpFastCache\Bundle\Twig\CacheExtension\CacheProvider\PsrCacheAdapter
 
 services:
     phpfastcache:
@@ -9,20 +11,26 @@ services:
         arguments:
             - "%phpfastcache%"
             - "@?debug.stopwatch"
-
-    phpfastcache.request_collector:
-        class: "%php_fast_cache.data_collector.class%"
-        arguments:
-            - "@phpfastcache"
-        public: false
-        tags:
-            -
-                name:     data_collector
-                template: '@phpFastCache/data_collector/template.html.twig'
-                id:       'phpfastcache'
-                priority: 300
-
     phpfastcache.human_readable_size:
         class: "%php_fast_cache.human_readable.class%"
         tags:
             - { name: twig.extension }
+    phpfastcache.twig_cache_driver_provider:
+        class: "%php_fast_cache.cache.class%"
+        factory: [ "@phpfastcache", "getTwigCacheInstance" ]
+    phpfastcache.twig_cache_provider:
+        class: "%php_fast_cache.twig_cache_provider.class%"
+        arguments:
+             - "@phpfastcache.twig_cache_driver_provider"
+    phpfastcache.twig_cache_stategy:
+        class: "%php_fast_cache.twig_cache_stategy.class%"
+        arguments:
+            - "@phpfastcache.twig_cache_provider"
+            - "@?phpfastcache.request_collector"
+            - "%phpfastcache%"
+    twig.extension.cache:
+        class: "%php_fast_cache.twig_cache.class%"
+        arguments:
+          - "@phpfastcache.twig_cache_stategy"
+        tags:
+         - { name: twig.extension }

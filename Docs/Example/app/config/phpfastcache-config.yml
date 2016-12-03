@@ -1,5 +1,7 @@
 # PhpFastCache configuration
 php_fast_cache:
+    twig_driver: "filecache" # This option must be a valid declared driver, in our example: "filecache" or "memcachecache" or "apccache" etc...
+    twig_block_debug: false # This option will wrap CACHE/ENDCACHE blocks with block debug as HTML comment
     drivers:
         filecache:
             type: Files
