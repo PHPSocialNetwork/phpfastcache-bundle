@@ -121,7 +121,7 @@
     <!--
     - PhpFastcache Instances
     -->
-    <h2>PhpFastCache Cache Instance ({{ collector.stats|length }})</h2>
+    <h2>PhpFastCache Cache Instance<small> ({{ collector.stats|length }})</small></h2>
     <div class="sf-tabs">
         {% for name, stat in collector.stats %}
             <div class="tab">
@@ -181,7 +181,7 @@
     <!--
     - PhpFastcache core config
     -->
-    <h2>PhpFastCache Core Config ({{ collector.coreConfig|length }})</h2>
+    <h2>PhpFastCache Core Config<small> ({{ collector.coreConfig|length }})</small></h2>
     <table class="">
         <thead>
         <tr>
@@ -202,7 +202,7 @@
     <!--
     - PhpFastcache project config
     -->
-    <h2>PhpFastCache Project Config ({{ collector.projectConfig|length }})</h2>
+    <h2>PhpFastCache Project Config<small> ({{ collector.projectConfig|length }})</small></h2>
     <table class="">
         <thead>
         <tr>
@@ -223,7 +223,7 @@
     <!--
     - Twig blocks
     -->
-    <h2>PhpFastCache Twig Cache Blocks ({{ collector.twigCacheBlocks|length }})</h2>
+    <h2 title="Imbricated cache blocks cannot be shown as the rendered string come from the cache itself instead of standard template rendering."><abbr>PhpFastCache Twig Cache Blocks</abbr><small> ({{ collector.twigCacheBlocks|length }})</small></h2>
     <table class="">
         <thead>
         <tr>
