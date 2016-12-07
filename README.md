@@ -14,6 +14,8 @@ composer require phpfastcache/phpfastcache-bundle
 ```yml
 # PhpFastCache configuration
 php_fast_cache:
+    twig_driver: "filecache" # This option must be a valid declared driver, in our example: "filecache"
+    twig_block_debug: false # This option will wrap CACHE/ENDCACHE blocks with block debug as HTML comment
     drivers:
         filecache:
             type: Files
@@ -32,6 +34,7 @@ $bundles[] = new phpFastCache\Bundle\phpFastCacheBundle();
 
 #### :rocket: Step 4: Accelerate your app by making use of PhpFastCache service
 
+Caching data in your controller:
 ```php
 public function indexAction(Request $request)
 {
@@ -50,7 +53,21 @@ public function indexAction(Request $request)
     ]);
 }
 ```
-
+Or in your template:
+```twig
+<div>
+    {#
+     * 'myrandom6' Is your cache key identifier, must be unique
+     * 300 Is the time to live (TTL) before the cache expires and get regenerated
+    #}
+    {% cache 'myrandom6' 300 %}
+        <textarea>
+            <!-- Some heavy stuff like Doctrine Lazy Entities -->
+            {% for i in 1..1000 %}{{ random() }}{% endfor %}
+        </textarea>
+    {% endcache %}
+</div>
+```
 #### :boom: phpFastCache Bundle support
 Found an issue or had an idea ? Come here [here](https://github.com/PHPSocialNetwork/phpfastcache-bundle/issues) and let us know !
 

@@ -9,17 +9,18 @@
  *
  * @author Georges.L (Geolim4)  <contact@geolim4.com>
  * @author PastisD https://github.com/PastisD
+ * @author Alexander (asm89) <iam.asm89@gmail.com>
  * @author Khoa Bui (khoaofgod)  <khoaofgod@gmail.com> http://www.phpfastcache.com
  *
  */
 
-namespace phpFastCache\Bundle\Twig;
+namespace phpFastCache\Bundle\Twig\HumanReadableExtension;
 
 /**
  * Class HumanReadableExtension
  * @package phpFastCache\Bundle\Twig
  */
-class HumanReadableExtension extends \Twig_Extension
+class Extension extends \Twig_Extension
 {
     /**
      * @return array

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * This file is part of phpFastCache.
@@ -9,19 +10,17 @@
  *
  * @author Georges.L (Geolim4)  <contact@geolim4.com>
  * @author PastisD https://github.com/PastisD
+ * @author Alexander (asm89) <iam.asm89@gmail.com>
  * @author Khoa Bui (khoaofgod)  <khoaofgod@gmail.com> http://www.phpfastcache.com
  *
  */
 
-namespace phpFastCache\Bundle;
-
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+namespace phpFastCache\Bundle\Twig\CacheExtension\Exception;
 
 /**
- * Class phpFastCacheBundle
- * @package phpFastCache\Bundle
+ * @todo Replace \RuntimeException with \InvalidArgumentException at version 2.0
  */
-class phpFastCacheBundle extends Bundle
+class BaseException extends \RuntimeException
 {
-    const VERSION = '1.0.2';
+
 }

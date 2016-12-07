@@ -29,7 +29,7 @@ class Cache
     /**
      * @var array
      */
-    private $drivers = [];
+    private $config = [];
 
     /**
      * @var Stopwatch
@@ -46,14 +46,14 @@ class Cache
     /**
      * Cache constructor.
      *
-     * @param $drivers
+     * @param array $config
      * @param Stopwatch $stopwatch
      *
      * @throws \phpFastCache\Exceptions\phpFastCacheDriverException
      */
-    public function __construct($drivers, Stopwatch $stopwatch = null)
+    public function __construct($config, Stopwatch $stopwatch = null)
     {
-        $this->drivers = (array) $drivers[ 'drivers' ];
+        $this->config = (array) $config;
         $this->stopwatch = $stopwatch;
     }
 
@@ -89,8 +89,8 @@ class Cache
         }
 
         if (!array_key_exists($name, $this->cacheInstances)) {
-            if (array_key_exists($name, $this->drivers)) {
-                $this->createInstance($name, CacheManager::getInstance($this->drivers[ $name ][ 'type' ], $this->drivers[ $name ][ 'parameters' ]));
+            if (array_key_exists($name, $this->config[ 'drivers' ])) {
+                $this->createInstance($name, CacheManager::getInstance($this->config[ 'drivers' ][ $name ][ 'type' ], $this->config[ 'drivers' ][ $name ][ 'parameters' ]));
                 if (!$this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface) {
                     throw new phpFastCacheDriverException("Cache instance '{$name}' does not implements ExtendedCacheItemPoolInterface");
                 }
@@ -103,6 +103,24 @@ class Cache
             $this->stopwatch->stop(__METHOD__ . "('{$name}')");
         }
         return $this->cacheInstances[ $name ];
+    }
+
+    /**
+     * @return \phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface
+     */
+    public function getTwigCacheInstance()
+    {
+        return $this->get($this->config[ 'twig_driver' ]);
+    }
+
+    /**
+     * Return all cache instances
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
