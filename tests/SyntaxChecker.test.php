@@ -41,6 +41,7 @@ foreach ($list as $file) {
     if (strpos($file, '/vendor/composer') === false
       && strpos($file, '/vendor/symfony') === false
       && strpos($file, '/vendor/doctrine') === false
+      && strpos($file, '/vendor/paragonie/random_compat') === false //random_int() patch
       && strpos($file, '/bin/stubs') === false
     ) {
         exec('php -l "' . $file . '"', $output, $status);
