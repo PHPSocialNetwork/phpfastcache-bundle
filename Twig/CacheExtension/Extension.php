@@ -50,7 +50,7 @@ class Extension extends \Twig_Extension
         if (version_compare(\Twig_Environment::VERSION, '1.26.0', '>=')) {
             return get_class($this);
         }
-        return 'asm89_cache';
+        return 'phpfastcache_cache';
     }
 
     /**
