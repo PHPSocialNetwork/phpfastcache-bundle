@@ -27,9 +27,14 @@ use Symfony\Component\Stopwatch\Stopwatch;
 class Cache
 {
     /**
+     * @var self
+     */
+    protected static $selfInstance;
+
+    /**
      * @var array
      */
-    private $config = [];
+    protected $config = [];
 
     /**
      * @var Stopwatch
@@ -41,7 +46,7 @@ class Cache
      *
      * @var \phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface[]
      */
-    private $cacheInstances = [];
+    protected $cacheInstances = [];
 
     /**
      * Cache constructor.
@@ -51,10 +56,24 @@ class Cache
      *
      * @throws \phpFastCache\Exceptions\phpFastCacheDriverException
      */
-    public function __construct($config, Stopwatch $stopwatch = null)
+    protected function __construct($config, Stopwatch $stopwatch = null)
     {
         $this->config = (array) $config;
         $this->stopwatch = $stopwatch;
+    }
+
+    /**
+     * Factory instance provider
+     *
+     * @param array $config
+     * @param Stopwatch $stopwatch
+     *
+     * @throws \phpFastCache\Exceptions\phpFastCacheDriverException
+     * @return self
+     */
+    public static function getInstance($config, Stopwatch $stopwatch = null)
+    {
+        return self::$selfInstance ?: self::$selfInstance = new self($config, $stopwatch);
     }
 
     /**
