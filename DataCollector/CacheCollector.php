@@ -58,7 +58,7 @@ class CacheCollector extends DataCollector
         $instances = [];
         $driverUsed = [];
 
-        /** @var  $cache */
+        /** @var \phpFastCache\Cache\ExtendedCacheItemPoolInterface $cache */
         foreach ($this->cache->getInstances() as $instanceName => $cache) {
             if ($cache->getStats()->getSize()) {
                 $size += $cache->getStats()->getSize();

@@ -29,7 +29,7 @@ class CacheNode extends \Twig_Node
     /**
      * @param \Twig_Node_Expression $annotation
      * @param \Twig_Node_Expression $keyInfo
-     * @param \Twig_NodeInterface   $body
+     * @param \Twig_Node            $body
      * @param integer               $lineno
      * @param string                $tag
      */

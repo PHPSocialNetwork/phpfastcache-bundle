@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "92fa28c6377cc19ee7850f8b859eafc1",
-    "content-hash": "febea3fc70510f2d0af641d29ac780a2",
+    "hash": "cdba3c15a2cf37a6e3a10cd76c82edae",
+    "content-hash": "c16d6b6d2efa6b16f3cb295793ab0de8",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -81,12 +81,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "0e7ac7811c67d1c4fe93e0fe44d11c90e09d6b20"
+                "reference": "9fa5962201c8b69cb68d091bfa6a77e92e2a3559"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/0e7ac7811c67d1c4fe93e0fe44d11c90e09d6b20",
-                "reference": "0e7ac7811c67d1c4fe93e0fe44d11c90e09d6b20",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/9fa5962201c8b69cb68d091bfa6a77e92e2a3559",
+                "reference": "9fa5962201c8b69cb68d091bfa6a77e92e2a3559",
                 "shasum": ""
             },
             "require": {
@@ -142,7 +142,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2016-10-29 11:43:38"
+            "time": "2016-12-04 05:51:54"
         },
         {
             "name": "doctrine/collections",
@@ -454,21 +454,21 @@
         },
         {
             "name": "phpfastcache/phpfastcache",
-            "version": "5.0.11",
+            "version": "6.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPSocialNetwork/phpfastcache.git",
-                "reference": "192e140068f1c1bca0cc6369b8283edfc2720cd4"
+                "reference": "de48dc3b91799ab915785e103a9726a03b544dd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/192e140068f1c1bca0cc6369b8283edfc2720cd4",
-                "reference": "192e140068f1c1bca0cc6369b8283edfc2720cd4",
+                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/de48dc3b91799ab915785e103a9726a03b544dd7",
+                "reference": "de48dc3b91799ab915785e103a9726a03b544dd7",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=5.5.0",
+                "php": "^5.6 || ^7.0",
                 "phpfastcache/phpssdb": "~1.0.0",
                 "predis/predis": "~1.1.0",
                 "psr/cache": "~1.0.0"
@@ -536,7 +536,7 @@
                 "zend memory cache",
                 "zend server"
             ],
-            "time": "2016-11-19 20:51:43"
+            "time": "2016-11-30 19:16:22"
         },
         {
             "name": "phpfastcache/phpssdb",
@@ -1021,12 +1021,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "d6e8937e6933517edced0dedf6df1bfc9450289f"
+                "reference": "4033b602ffb7cc4328e640fe0910ae6604905b28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/d6e8937e6933517edced0dedf6df1bfc9450289f",
-                "reference": "d6e8937e6933517edced0dedf6df1bfc9450289f",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/4033b602ffb7cc4328e640fe0910ae6604905b28",
+                "reference": "4033b602ffb7cc4328e640fe0910ae6604905b28",
                 "shasum": ""
             },
             "require": {
@@ -1155,7 +1155,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-12-03 11:13:37"
+            "time": "2016-12-06 14:46:10"
         },
         {
             "name": "twig/twig",
@@ -1163,12 +1163,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "99b28e273c1d1b7a619ab2240eb5928e9ba16fd0"
+                "reference": "fbbdeb53a7bcb003d8b643e3f5376d0efb136456"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/99b28e273c1d1b7a619ab2240eb5928e9ba16fd0",
-                "reference": "99b28e273c1d1b7a619ab2240eb5928e9ba16fd0",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/fbbdeb53a7bcb003d8b643e3f5376d0efb136456",
+                "reference": "fbbdeb53a7bcb003d8b643e3f5376d0efb136456",
                 "shasum": ""
             },
             "require": {
@@ -1217,7 +1217,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-11-22 01:08:24"
+            "time": "2016-12-05 09:21:22"
         }
     ],
     "packages-dev": [],
@@ -1226,6 +1226,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^5.6 || ^7.0"
+    },
     "platform-dev": []
 }
