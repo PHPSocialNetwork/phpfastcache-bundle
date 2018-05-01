@@ -15,7 +15,7 @@
  *
  */
 
-namespace phpFastCache\Bundle\Twig\CacheExtension\Exception;
+namespace Phpfastcache\Bundle\Twig\CacheExtension\Exception;
 
 class InvalidCacheLifetimeException extends BaseException
 {

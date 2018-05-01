@@ -14,17 +14,17 @@
  *
  */
 
-namespace phpFastCache\Bundle\Command;
+namespace Phpfastcache\Bundle\Command;
 
-use phpFastCache\Cache\ExtendedCacheItemPoolInterface;
-use phpFastCache\Exceptions\phpFastCacheDriverCheckException;
+use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
+use Phpfastcache\Exceptions\phpFastCacheDriverCheckException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class phpFastCacheCommand extends ContainerAwareCommand
+class PhpfastcacheCommand extends ContainerAwareCommand
 {
     protected function configure()
     {

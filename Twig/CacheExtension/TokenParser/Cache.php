@@ -15,9 +15,9 @@
  *
  */
 
-namespace phpFastCache\Bundle\Twig\CacheExtension\TokenParser;
+namespace Phpfastcache\Bundle\Twig\CacheExtension\TokenParser;
 
-use phpFastCache\Bundle\Twig\CacheExtension\Node\CacheNode;
+use Phpfastcache\Bundle\Twig\CacheExtension\Node\CacheNode;
 
 /**
  * Parser for cache/endcache blocks.

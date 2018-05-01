@@ -13,15 +13,15 @@
  *
  */
 
-namespace phpFastCache\Bundle;
+namespace Phpfastcache\Bundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class phpFastCacheBundle
- * @package phpFastCache\Bundle
+ * Class PhpfastcacheBundle
+ * @package Phpfastcache\Bundle
  */
-class phpFastCacheBundle extends Bundle
+class PhpfastcacheBundle extends Bundle
 {
     const VERSION = '1.0.4';
 }

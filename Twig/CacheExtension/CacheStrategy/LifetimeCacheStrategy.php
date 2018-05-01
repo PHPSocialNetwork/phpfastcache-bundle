@@ -15,12 +15,12 @@
  *
  */
 
-namespace phpFastCache\Bundle\Twig\CacheExtension\CacheStrategy;
+namespace Phpfastcache\Bundle\Twig\CacheExtension\CacheStrategy;
 
-use phpFastCache\Bundle\Twig\CacheExtension\CacheProviderInterface;
-use phpFastCache\Bundle\Twig\CacheExtension\CacheStrategyInterface;
-use phpFastCache\Bundle\Twig\CacheExtension\Exception\InvalidCacheLifetimeException;
-use phpFastCache\Bundle\DataCollector\CacheCollector;
+use Phpfastcache\Bundle\Twig\CacheExtension\CacheProviderInterface;
+use Phpfastcache\Bundle\Twig\CacheExtension\CacheStrategyInterface;
+use Phpfastcache\Bundle\Twig\CacheExtension\Exception\InvalidCacheLifetimeException;
+use Phpfastcache\Bundle\DataCollector\CacheCollector;
 
 /**
  * Strategy for caching with a pre-defined lifetime.

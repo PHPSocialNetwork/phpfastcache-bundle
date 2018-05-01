@@ -13,11 +13,11 @@
  *
  */
 
-namespace phpFastCache\Bundle\Twig;
+namespace Phpfastcache\Bundle\Twig;
 
 /**
  * Class HumanReadableExtension
- * @package phpFastCache\Bundle\Twig
+ * @package Phpfastcache\Bundle\Twig
  */
 class HumanReadableExtension extends \Twig_Extension
 {

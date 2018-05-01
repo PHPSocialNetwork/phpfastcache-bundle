@@ -15,9 +15,9 @@
  *
  */
 
-namespace phpFastCache\Bundle\Twig\CacheExtension\CacheProvider;
+namespace Phpfastcache\Bundle\Twig\CacheExtension\CacheProvider;
 
-use phpFastCache\Bundle\Twig\CacheExtension\CacheProviderInterface;
+use Phpfastcache\Bundle\Twig\CacheExtension\CacheProviderInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
 /**

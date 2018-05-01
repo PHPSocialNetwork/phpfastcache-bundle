@@ -13,16 +13,16 @@
  *
  */
 
-namespace phpFastCache\Bundle\Service;
+namespace Phpfastcache\Bundle\Service;
 
-use phpFastCache\Cache\ExtendedCacheItemPoolInterface;
-use phpFastCache\CacheManager;
-use phpFastCache\Exceptions\phpFastCacheDriverException;
+use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
+use Phpfastcache\CacheManager;
+use Phpfastcache\Exceptions\phpFastCacheDriverException;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Class Cache
- * @package phpFastCache\Bundle\Service
+ * @package Phpfastcache\Bundle\Service
  */
 class Cache
 {

@@ -14,12 +14,12 @@
  *
  */
 
-namespace phpFastCache\Bundle\DataCollector;
+namespace Phpfastcache\Bundle\DataCollector;
 
-use phpFastCache\Api as phpFastCacheApi;
-use phpFastCache\Bundle\phpFastCacheBundle;
-use phpFastCache\Bundle\Service\Cache;
-use phpFastCache\CacheManager;
+use Phpfastcache\Api as phpFastCacheApi;
+use Phpfastcache\Bundle\phpFastCacheBundle;
+use Phpfastcache\Bundle\Service\Cache;
+use Phpfastcache\CacheManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -205,5 +205,10 @@ class CacheCollector extends DataCollector
     public function getName()
     {
         return 'phpfastcache';
+    }
+
+    public function reset()
+    {
+        // TODO: Implement reset() method.
     }
 }

@@ -15,7 +15,7 @@
  *
  */
 
-namespace phpFastCache\Bundle\Twig\CacheExtension;
+namespace Phpfastcache\Bundle\Twig\CacheExtension;
 
 /**
  * Cache strategy interface.

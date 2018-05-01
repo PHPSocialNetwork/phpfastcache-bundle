@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use phpFastCache\Exceptions\phpFastCacheDriverCheckException;
+use Phpfastcache\Exceptions\phpFastCacheDriverCheckException;
 
 class DefaultController extends Controller
 {

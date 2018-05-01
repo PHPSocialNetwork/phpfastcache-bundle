@@ -14,9 +14,9 @@
  *
  */
 
-namespace phpFastCache\Bundle\DependencyInjection;
+namespace Phpfastcache\Bundle\DependencyInjection;
 
-use phpFastCache\Exceptions\phpFastCacheDriverException;
+use Phpfastcache\Exceptions\phpFastCacheDriverException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -24,9 +24,9 @@ use Symfony\Component\DependencyInjection\Loader;
 
 /**
  * Class phpFastCacheExtension
- * @package phpFastCache\Bundle\DependencyInjection
+ * @package Phpfastcache\Bundle\DependencyInjection
  */
-class phpFastCacheExtension extends Extension
+class PhpfastcacheExtension extends Extension
 {
     /**
      * {@inheritDoc}

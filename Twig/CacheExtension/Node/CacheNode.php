@@ -15,7 +15,7 @@
  *
  */
 
-namespace phpFastCache\Bundle\Twig\CacheExtension\Node;
+namespace Phpfastcache\Bundle\Twig\CacheExtension\Node;
 
 /**
  * Cache twig node.
