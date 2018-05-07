@@ -27,7 +27,7 @@
             }
         ],
     "require": {
-        "symfony/symfony": "^3.3|^4.0",
+        "symfony/symfony": "^3.4|^4.0",
         "phpFastCache/phpFastCache": "^7.0"
     },
     "autoload": {
