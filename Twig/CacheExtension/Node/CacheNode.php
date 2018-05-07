@@ -46,7 +46,7 @@ class CacheNode extends \Twig_Node
         $i = self::$cacheCount++;
 
         if (version_compare(\Twig_Environment::VERSION, '1.26.0', '>=')) {
-            $extension = 'phpFastCache\Bundle\Twig\CacheExtension\Extension';
+            $extension = 'Phpfastcache\Bundle\Twig\CacheExtension\Extension';
         } else {
             $extension = 'phpfastcache_cache';
         }

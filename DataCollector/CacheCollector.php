@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 class CacheCollector extends DataCollector
 {
     /**
-     * @var \phpFastCache\Bundle\Service\Cache
+     * @var \Phpfastcache\Bundle\Service\Cache
      */
     private $cache;
 
@@ -39,7 +39,7 @@ class CacheCollector extends DataCollector
     /**
      * CacheCollector constructor.
      *
-     * @param \phpFastCache\Bundle\Service\Cache $cache
+     * @param \Phpfastcache\Bundle\Service\Cache $cache
      */
     public function __construct(Cache $cache)
     {

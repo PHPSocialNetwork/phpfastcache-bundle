@@ -17,7 +17,7 @@ namespace Phpfastcache\Bundle\Service;
 
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\CacheManager;
-use Phpfastcache\Exceptions\phpFastCacheDriverException;
+use Phpfastcache\Exceptions\PhpfastcacheDriverException;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
@@ -39,7 +39,7 @@ class Cache
     /**
      * Contains all cache instances
      *
-     * @var \phpFastCache\Cache\ExtendedCacheItemPoolInterface[]
+     * @var \Phpfastcache\Cache\ExtendedCacheItemPoolInterface[]
      */
     private $cacheInstances = [];
 
@@ -49,7 +49,7 @@ class Cache
      * @param array $config
      * @param Stopwatch $stopwatch
      *
-     * @throws \phpFastCache\Exceptions\phpFastCacheDriverException
+     * @throws \Phpfastcache\Exceptions\phpFastCacheDriverException
      */
     public function __construct($config, Stopwatch $stopwatch = null)
     {
@@ -63,12 +63,12 @@ class Cache
      * @param string $name
      * @param ExtendedCacheItemPoolInterface $instance
      *
-     * @throws \phpFastCache\Exceptions\phpFastCacheDriverException
+     * @throws \Phpfastcache\Exceptions\phpFastCacheDriverException
      */
     public function createInstance($name, ExtendedCacheItemPoolInterface $instance)
     {
         if (array_key_exists($name, $this->cacheInstances) && $this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface) {
-            throw new phpFastCacheDriverException("Cache instance '{$name}' already exists");
+            throw new PhpfastcacheDriverException("Cache instance '{$name}' already exists");
         }
         $this->cacheInstances[ $name ] = $instance;
     }
@@ -78,9 +78,9 @@ class Cache
      *
      * @param string $name Name of configured driver
      *
-     * @return \phpFastCache\Cache\ExtendedCacheItemPoolInterface
+     * @return \Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface
      *
-     * @throws \phpFastCache\Exceptions\phpFastCacheDriverException
+     * @throws \Phpfastcache\Exceptions\phpFastCacheDriverException
      */
     public function get($name)
     {
@@ -92,10 +92,10 @@ class Cache
             if (array_key_exists($name, $this->config[ 'drivers' ])) {
                 $this->createInstance($name, CacheManager::getInstance($this->config[ 'drivers' ][ $name ][ 'type' ], $this->config[ 'drivers' ][ $name ][ 'parameters' ]));
                 if (!$this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface) {
-                    throw new phpFastCacheDriverException("Cache instance '{$name}' does not implements ExtendedCacheItemPoolInterface");
+                    throw new PhpfastcacheDriverException("Cache instance '{$name}' does not implements ExtendedCacheItemPoolInterface");
                 }
             } else {
-                throw new phpFastCacheDriverException("Cache instance '{$name}' not exists, check your config.yml");
+                throw new PhpfastcacheDriverException("Cache instance '{$name}' not exists, check your config.yml");
             }
         }
 
@@ -106,7 +106,7 @@ class Cache
     }
 
     /**
-     * @return \phpFastCache\Cache\ExtendedCacheItemPoolInterface
+     * @return \Phpfastcache\Cache\ExtendedCacheItemPoolInterface
      */
     public function getTwigCacheInstance()
     {
@@ -126,7 +126,7 @@ class Cache
     /**
      * Return all cache instances
      *
-     * @return \phpFastCache\Cache\ExtendedCacheItemPoolInterface[]
+     * @return \Phpfastcache\Cache\ExtendedCacheItemPoolInterface[]
      */
     public function getInstances()
     {

@@ -17,7 +17,7 @@
 namespace Phpfastcache\Bundle\Command;
 
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
-use Phpfastcache\Exceptions\phpFastCacheDriverCheckException;
+use Phpfastcache\Exceptions\PhpfastcacheDriverCheckException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -58,7 +58,7 @@ class PhpfastcacheCommand extends ContainerAwareCommand
                 if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                     $output->writeln("<fg=green>Cache instance {$name} cleared</>");
                 }
-            }catch (phpFastCacheDriverCheckException $e){
+            }catch (PhpfastcacheDriverCheckException $e){
                 $failedInstances[] = $name;
                 if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                     $output->writeln("<fg=red>Cache instance {$name} not cleared, got exception: " . "<bg=red;options=bold>" . $e->getMessage() ."</>");

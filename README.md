@@ -33,7 +33,7 @@ php_fast_cache:
 #### :wrench: Step 3: Setup your AppKernel.php by adding the phpFastCache Bundle
 
 ```php
-$bundles[] = new phpFastCache\Bundle\phpFastCacheBundle();
+$bundles[] = new Phpfastcache\Bundle\phpFastCacheBundle();
 ```
 
 * See the file Docs/Example/app/AppKernel.php for more information.

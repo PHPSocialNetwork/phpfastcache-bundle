@@ -14,7 +14,7 @@
 
 {% block toolbar %}
     {% set icon %}
-        <span class="icon">{{ include('@phpFastCache/data_collector/icon.svg') }}</span>
+        <span class="icon">{{ include('@Phpfastcache/data_collector/icon.svg') }}</span>
         <span class="sf-toolbar-value">{{ collector.size|sizeFormat(1) }}</span>
     {% endset %}
 
@@ -68,7 +68,7 @@
 
 {% block menu %}
     <span class="label{% if collector.stats|length == 0 %} disabled{% endif %}">
-        <span class="icon">{{ include('@phpFastCache/data_collector/icon.svg') }}</span>
+        <span class="icon">{{ include('@Phpfastcache/data_collector/icon.svg') }}</span>
         <strong>PhpFastCache</strong>
         {% if collector.stats|length > 0 %}
             <span class="count">

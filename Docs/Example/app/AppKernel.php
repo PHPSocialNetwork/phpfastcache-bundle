@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             /**
              * PhpFastCache Bundle
              */
-          new phpFastCache\Bundle\phpFastCacheBundle(),
+          new Phpfastcache\Bundle\phpFastCacheBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

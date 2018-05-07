@@ -43,19 +43,19 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
     private $config = [];
 
     /**
-     * @var \phpFastCache\Bundle\Twig\CacheExtension\CacheProviderInterface
+     * @var \Phpfastcache\Bundle\Twig\CacheExtension\CacheProviderInterface
      */
     private $cache;
 
     /**
-     * @var \phpFastCache\Bundle\DataCollector\CacheCollector
+     * @var \Phpfastcache\Bundle\DataCollector\CacheCollector
      */
     private $cacheCollector;
 
     /**
      * LifetimeCacheStrategy constructor.
-     * @param \phpFastCache\Bundle\Twig\CacheExtension\CacheProviderInterface $cache
-     * @param \phpFastCache\Bundle\DataCollector\CacheCollector $cacheCollector
+     * @param \Phpfastcache\Bundle\Twig\CacheExtension\CacheProviderInterface $cache
+     * @param \Phpfastcache\Bundle\DataCollector\CacheCollector $cacheCollector
      * @param array $config
      */
     public function __construct(CacheProviderInterface $cache, CacheCollector $cacheCollector = null, $config)

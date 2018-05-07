@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Phpfastcache\Exceptions\phpFastCacheDriverCheckException;
+use Phpfastcache\Exceptions\PhpfastcacheDriverCheckException;
 
 class DefaultController extends Controller
 {
@@ -31,7 +31,7 @@ class DefaultController extends Controller
         try{
             $cache9 = $this->get('phpfastcache')->get('apccache');
             $cache10 = $this->get('phpfastcache')->get('apcucache');
-        }catch(phpFastCacheDriverCheckException $e){
+        }catch(PhpfastcacheDriverCheckException $e){
             $cache11 = $this->get('phpfastcache')->get('xcachecache');
         }
 

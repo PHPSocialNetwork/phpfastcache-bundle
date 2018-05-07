@@ -16,7 +16,7 @@
 
 namespace Phpfastcache\Bundle\DependencyInjection;
 
-use Phpfastcache\Exceptions\phpFastCacheDriverException;
+use Phpfastcache\Exceptions\PhpfastcacheDriverException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -31,8 +31,8 @@ class PhpfastcacheExtension extends Extension
     /**
      * {@inheritDoc}
      *
-     * @throws \phpFastCache\Exceptions\phpFastCacheDriverCheckException
-     * @throws \phpFastCache\Exceptions\phpFastCacheDriverException
+     * @throws \Phpfastcache\Exceptions\PhpfastcacheDriverCheckException
+     * @throws \Phpfastcache\Exceptions\PhpfastcacheDriverException
      * @throws \Exception
      * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
@@ -55,10 +55,10 @@ class PhpfastcacheExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         foreach ($config['drivers'] as $name => $driver) {
-            $class = "phpFastCache\\Drivers\\" . $driver['type'] . '\Driver';
+            $class = "Phpfastcache\\Drivers\\" . $driver['type'] . '\Driver';
             foreach ($driver['parameters'] as $parameter_name => $parameter) {
                 if (!$class::isValidOption($parameter_name, $parameter)) {
-                    throw new phpFastCacheDriverException("Option $parameter_name in driver {$driver['type']} doesn't exists");
+                    throw new PhpfastcacheDriverException("Option $parameter_name in driver {$driver['type']} doesn't exists");
                 }
             }
         }
