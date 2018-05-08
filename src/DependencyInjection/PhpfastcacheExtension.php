@@ -54,15 +54,6 @@ class PhpfastcacheExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        foreach ($config['drivers'] as $name => $driver) {
-            $class = "Phpfastcache\\Drivers\\" . $driver['type'] . '\Driver';
-            foreach ($driver['parameters'] as $parameter_name => $parameter) {
-                if (!$class::isValidOption($parameter_name, $parameter)) {
-                    throw new PhpfastcacheDriverException("Option $parameter_name in driver {$driver['type']} doesn't exists");
-                }
-            }
-        }
-
         $container->setParameter('phpfastcache', $config);
     }
 }
