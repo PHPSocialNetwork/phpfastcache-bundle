@@ -18,6 +18,7 @@ namespace Phpfastcache\Bundle\Service;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\CacheManager;
 use Phpfastcache\Exceptions\PhpfastcacheDriverException;
+use Phpfastcache\Exceptions\PhpfastcacheInvalidConfigurationException;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
@@ -81,6 +82,7 @@ class Phpfastcache
      * @return \Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface
      *
      * @throws \Phpfastcache\Exceptions\phpFastCacheDriverException
+     * @throws \Phpfastcache\Exceptions\PhpfastcacheInvalidConfigurationException
      */
     public function get($name)
     {
@@ -90,11 +92,23 @@ class Phpfastcache
 
         if (!array_key_exists($name, $this->cacheInstances)) {
             if (array_key_exists($name, $this->config[ 'drivers' ])) {
-                /**
-                 * @todo Implement new config Object here
-                 */
-                $this->createInstance($name, CacheManager::getInstance($this->config[ 'drivers' ][ $name ][ 'type' ], $this->config[ 'drivers' ][ $name ][ 'parameters' ]));
-                if (!$this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface) {
+                $driverClass = CacheManager::getDriverClass($this->config[ 'drivers' ][ $name ][ 'type' ]);
+                if (is_a($driverClass, ExtendedCacheItemPoolInterface::class, true)){
+                    $configClass = $driverClass::getConfigClass();
+                    if(\class_exists($configClass)){
+                        $this->createInstance(
+                          $name,
+                          CacheManager::getInstance(
+                            $this->config[ 'drivers' ][ $name ][ 'type' ],
+                            new $configClass($this->config[ 'drivers' ][ $name ][ 'parameters' ])
+                          )
+                        );
+                    }else{
+                        throw new PhpfastcacheInvalidConfigurationException('Invalid configuration class name: ' . $configClass);
+                    }
+                }
+
+                if (!isset($this->cacheInstances[ $name ]) || !($this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface)) {
                     throw new PhpfastcacheDriverException("Cache instance '{$name}' does not implements ExtendedCacheItemPoolInterface");
                 }
             } else {

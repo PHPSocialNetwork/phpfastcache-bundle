@@ -66,7 +66,8 @@ class CacheCollector extends DataCollector
             $stats[ $instanceName ] = $cache->getStats();
             $instances[ $instanceName ] = [
               'driverName' => $cache->getDriverName(),
-              'driverConfig' => $cache->getConfig()->toArray(),
+              'configClassName' => \get_class( $cache->getConfig()),
+              'driverConfig' => $cache->getConfig()->toArray()
             ];
             $driverUsed[ $cache->getDriverName() ] = get_class($cache);
         }

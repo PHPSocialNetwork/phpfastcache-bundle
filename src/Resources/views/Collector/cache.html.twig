@@ -129,10 +129,7 @@
                             <th title="The driver name with the namespace used">
                                 <abbr>Driver Name</abbr>
                             </th>
-                            <td><strong>{{ collector.instances[name].driverName }}</strong> (
-                                <small><code>{{ collector.driverUsed[collector.instances[name].driverName] }}</code>
-                                </small>
-                                )
+                            <td><strong title="{{ collector.driverUsed[collector.instances[name].driverName] }}"><abbr>{{ collector.instances[name].driverName }}</abbr></strong>
                             </td>
                         </tr>
                         <tr>
@@ -162,10 +159,20 @@
                             <td>{{ dump(stat.rawData) }}</td>
                         </tr>
                         <tr>
+
                             <th title="The configuration that was used to setup the driver instance">
-                                <abbr>Driver Config</abbr>
+                                <abbr>Driver Configuration</abbr>
                             </th>
-                            <td>{{ dump(collector.instances[name].driverConfig) }}</td>
+                            <td>
+                                <div>
+                                    <strong>Class: </strong>
+                                    <span>{{ collector.instances[name].configClassName }}</span>
+                                </div>
+                                <div>
+                                    <strong>Values: </strong>
+                                    <div>{{ dump(collector.instances[name].driverConfig) }}</div>
+                                </div>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
