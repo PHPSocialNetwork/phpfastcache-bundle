@@ -86,9 +86,9 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
 
         if(!empty($cacheData) && $this->config['twig_block_debug']){
             return "<!-- BEGIN CACHE BLOCK OUTPUT '{$unprefixedKey}' -->\n{$cacheData}\n<!-- // END CACHE BLOCK OUTPUT '{$unprefixedKey}' -->";
-        }else{
-            return $cacheData;
         }
+
+        return $cacheData;
     }
 
     /**

@@ -90,6 +90,9 @@ class Phpfastcache
 
         if (!array_key_exists($name, $this->cacheInstances)) {
             if (array_key_exists($name, $this->config[ 'drivers' ])) {
+                /**
+                 * @todo Implement new config Object here
+                 */
                 $this->createInstance($name, CacheManager::getInstance($this->config[ 'drivers' ][ $name ][ 'type' ], $this->config[ 'drivers' ][ $name ][ 'parameters' ]));
                 if (!$this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface) {
                     throw new PhpfastcacheDriverException("Cache instance '{$name}' does not implements ExtendedCacheItemPoolInterface");

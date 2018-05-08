@@ -87,7 +87,7 @@ class CacheCollector extends DataCollector
           ],
           'coreConfig' => [
             'driverList' => CacheManager::getDriverList(true),
-            'namespacePath (deprecated)' => CacheManager::getNamespacePath(true),
+            'namespacePath (deprecated)' => CacheManager::getNamespacePath(),
           ],
           'projectConfig' => [
             'twig_driver' => $this->cache->getConfig()['twig_driver'],
