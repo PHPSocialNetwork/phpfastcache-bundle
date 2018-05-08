@@ -16,9 +16,9 @@
 
 namespace Phpfastcache\Bundle\DataCollector;
 
-use Phpfastcache\Api as phpFastCacheApi;
-use Phpfastcache\Bundle\phpFastCacheBundle;
-use Phpfastcache\Bundle\Service\Cache;
+use Phpfastcache\Api as PhpfastcacheApi;
+use Phpfastcache\Bundle\PhpfastcacheBundle;
+use Phpfastcache\Bundle\Service\Phpfastcache;
 use Phpfastcache\CacheManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 class CacheCollector extends DataCollector
 {
     /**
-     * @var \Phpfastcache\Bundle\Service\Cache
+     * @var \Phpfastcache\Bundle\Service\Phpfastcache
      */
     private $cache;
 
@@ -39,9 +39,9 @@ class CacheCollector extends DataCollector
     /**
      * CacheCollector constructor.
      *
-     * @param \Phpfastcache\Bundle\Service\Cache $cache
+     * @param \Phpfastcache\Bundle\Service\Phpfastcache $cache
      */
-    public function __construct(Cache $cache)
+    public function __construct(Phpfastcache $cache)
     {
         $this->cache = $cache;
     }
@@ -66,16 +66,17 @@ class CacheCollector extends DataCollector
             $stats[ $instanceName ] = $cache->getStats();
             $instances[ $instanceName ] = [
               'driverName' => $cache->getDriverName(),
-              'driverConfig' => $cache->getConfig(),
+              'driverConfig' => $cache->getConfig()->toArray(),
             ];
             $driverUsed[ $cache->getDriverName() ] = get_class($cache);
         }
 
         $this->data = [
           'twigCacheBlocks' => $this->twig_cache_blocks,
-          'apiVersion' => phpFastCacheApi::getVersion(),
+          'apiVersion' => PhpfastcacheApi::getVersion(),
+          'pfcVersion' => PhpfastcacheApi::getPhpFastCacheVersion(),
           'bundleVersion' => phpFastCacheBundle::VERSION,
-          'apiChangelog' => phpFastCacheApi::getChangelog(),
+          'apiChangelog' => PhpfastcacheApi::getChangelog(),
           'driverUsed' => $driverUsed,
           'instances' => $instances,
           'stats' => $stats,
@@ -85,7 +86,8 @@ class CacheCollector extends DataCollector
             'write' => (int) CacheManager::$WriteHits,
           ],
           'coreConfig' => [
-            'namespacePath' => CacheManager::getNamespacePath(),
+            'driverList' => CacheManager::getDriverList(true),
+            'namespacePath (deprecated)' => CacheManager::getNamespacePath(true),
           ],
           'projectConfig' => [
             'twig_driver' => $this->cache->getConfig()['twig_driver'],
@@ -156,6 +158,14 @@ class CacheCollector extends DataCollector
     public function getApiVersion()
     {
         return $this->data[ 'apiVersion' ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPfcVersion()
+    {
+        return $this->data[ 'pfcVersion' ];
     }
 
     /**

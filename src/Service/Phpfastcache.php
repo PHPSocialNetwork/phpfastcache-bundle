@@ -24,7 +24,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
  * Class Cache
  * @package Phpfastcache\Bundle\Service
  */
-class Cache
+class Phpfastcache
 {
     /**
      * @var array
@@ -39,7 +39,7 @@ class Cache
     /**
      * Contains all cache instances
      *
-     * @var \Phpfastcache\Cache\ExtendedCacheItemPoolInterface[]
+     * @var \Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface[]
      */
     private $cacheInstances = [];
 
@@ -106,7 +106,7 @@ class Cache
     }
 
     /**
-     * @return \Phpfastcache\Cache\ExtendedCacheItemPoolInterface
+     * @return \Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface
      */
     public function getTwigCacheInstance()
     {
@@ -126,7 +126,7 @@ class Cache
     /**
      * Return all cache instances
      *
-     * @return \Phpfastcache\Cache\ExtendedCacheItemPoolInterface[]
+     * @return \Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface[]
      */
     public function getInstances()
     {

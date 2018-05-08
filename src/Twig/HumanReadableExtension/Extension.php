@@ -35,16 +35,17 @@ class Extension extends \Twig_Extension
      * @param int $bytes Bytes/Octets
      * @param int $decimals Number for decimals to return
      * @param bool $octetFormat Use Octet notation instead of Bytes
+     * @param string $separator The unit separator
      *
      * @return string
      */
-    public function size_format($bytes, $decimals = 2, $octetFormat = false)
+    public function size_format($bytes, $decimals = 2, $octetFormat = false, $separator = '')
     {
         $bytes = (int) $bytes;
         $sz     = 'BKMGTP';
         $factor = floor(( strlen($bytes) - 1 ) / 3);
 
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[ $factor ].( $factor ? ($octetFormat ? 'O' : 'B') : '' );
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).$separator.@$sz[ $factor ].( $factor ? ($octetFormat ? 'O' : 'B') : '' );
     }
 
     /**

@@ -23,5 +23,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class PhpfastcacheBundle extends Bundle
 {
-    const VERSION = '1.0.4';
+    const VERSION = '3.0.0-alpha';
 }

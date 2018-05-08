@@ -1,0 +1,255 @@
+{#
+ * This file is part of phpFastCache.
+ *
+ * @license MIT License (MIT)
+ *
+ * For full copyright and license information, please see the docs/CREDITS.txt file.
+ *
+ * @author Georges.L (Geolim4)  <contact@geolim4.com>
+ * @author PastisD https://github.com/PastisD
+ * @author Khoa Bui (khoaofgod)  <khoaofgod@gmail.com> http://www.phpfastcache.com
+#}
+
+{% extends request.isXmlHttpRequest ? '@WebProfiler/Profiler/ajax_layout.html.twig' : '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        <span class="icon">{{ include('@Phpfastcache/Collector/icon.svg') }}</span>
+        <span class="sf-toolbar-value">{{ collector.size|sizeFormat(1) }}</span>
+    {% endset %}
+
+    {% set text %}
+        <div class="sf-toolbar-info-group">
+            <div class="sf-toolbar-info-piece">
+                <b>API version</b>
+                <span class="sf-toolbar-status">{{ collector.ApiVersion }}</span>
+            </div>
+        </div>
+        <div class="sf-toolbar-info-group">
+            <div class="sf-toolbar-info-piece">
+                <b>Read hits</b>
+                <span class="sf-toolbar-status">{{ collector.hits.read }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Write hits</b>
+                <span class="sf-toolbar-status">{{ collector.hits.write }}</span>
+            </div>
+        </div>
+        <div class="sf-toolbar-info-group">
+            <div class="sf-toolbar-info-piece">
+                <b>Cache instances</b>
+                <span class="sf-toolbar-status">{{ collector.stats|length }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Cache size</b>
+                <span class="sf-toolbar-status">{{ collector.size|sizeFormat(1) }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Cache Driver</b>
+                {% if collector.driverUsed|length == 0 %}
+                    <span>None</span>
+                {% elseif collector.driverUsed|length == 1 %}
+                    <span><abbr title="{{ collector.driverUsed|first }}">{{ collector.driverUsed|keys|first }}</abbr></span>
+                {% else %}
+                    <span title="{{ collector.driverUsed|keys|join(', ') }}"><abbr>Multiple ({{ collector.driverUsed|length }})</abbr></span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="sf-toolbar-info-group">
+            <div class="sf-toolbar-info-piece">
+                <b>Twig Cache Blocks</b>
+                <span class="sf-toolbar-status">{{ collector.twigCacheBlocks|length }}</span>
+            </div>
+        </div>
+    {% endset %}
+
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig') }}
+{% endblock %}
+
+{% block menu %}
+    <span class="label{% if collector.stats|length == 0 %} disabled{% endif %}">
+        <span class="icon">{{ include('@Phpfastcache/Collector/icon.svg') }}</span>
+        <strong>PhpFastCache</strong>
+        {% if collector.stats|length > 0 %}
+            <span class="count">
+                <span>{{ collector.stats|length }}</span>
+            </span>
+        {% endif %}
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <!--
+    - PhpFastcache Metrics
+    -->
+    <h2>PhpFastCache Metrics</h2>
+    <div class="metrics">
+        <div class="metric">
+            <span class="value">
+                <span>{{ collector.size|sizeFormat(1, false, '|')|split('|')[0] }}</span>
+                <span class="unit">{{ collector.size|sizeFormat(1, false, '|')|split('|')[1] }}</span>
+            </span>
+            <span class="label">Total Size</span>
+        </div>
+        <div class="metric">
+            <span class="value"> {{ collector.stats|length }}</span>
+            <span class="label">Cache Instances</span>
+        </div>
+        <div class="metric">
+            <span class="value"> {{ collector.twigCacheBlocks|length }}</span>
+            <span class="label">Twig Cache Blocks</span>
+        </div>
+        <div class="metric">
+            <span class="value"> {{ collector.driverUsed|length }}</span>
+            <span class="label">Drivers used</span>
+        </div>
+        <div class="metric">
+            <span class="value"> {{ collector.hits.read }} / {{ collector.hits.write }}</span>
+            <span class="label">IO Read / Write hits</span>
+        </div>
+        <div class="metric">
+            <span class="value"> {{ collector.pfcVersion }} / {{ collector.apiVersion }} / {{ collector.bundleVersion }}</span>
+            <span class="label">Phpfastcache / API / Bundle version</span>
+        </div>
+
+    </div>
+
+    <!--
+    - PhpFastcache Instances
+    -->
+    <h2>PhpFastCache Cache Instance<small> ({{ collector.stats|length }})</small></h2>
+    <div class="sf-tabs">
+        {% for name, stat in collector.stats %}
+            <div class="tab">
+                <h3 class="tab-title">{{ name }}</h3>
+                <div class="tab-content">
+                    <table class="{{ class|default('') }}">
+                        <tbody>
+                        <tr>
+                            <th title="The driver name with the namespace used">
+                                <abbr>Driver Name</abbr>
+                            </th>
+                            <td><strong>{{ collector.instances[name].driverName }}</strong> (
+                                <small><code>{{ collector.driverUsed[collector.instances[name].driverName] }}</code>
+                                </small>
+                                )
+                            </td>
+                        </tr>
+                        <tr>
+                            <th title="A short information provided by the itemPool depending the driver configuration">
+                                <abbr>Driver Info</abbr>
+                            </th>
+                            <td>{{ stat.info|nl2br }}</td>
+                        </tr>
+                        <tr>
+                            <th title="The disk/memory size took by the driver, it can be approximate depending the kind of driver.">
+                                <abbr>Driver Size</abbr>
+                            </th>
+                            <td>{{ stat.size|sizeFormat(1) }}</td>
+                        </tr>
+                        <tr>
+                            <th title="The driver items keys fetched during the whole script execution">
+                                <abbr>
+                                    Driver Data
+                                </abbr>
+                            </th>
+                            <td>{{ stat.data }}</td>
+                        </tr>
+                        <tr>
+                            <th title="A bunch of raw configuration/debug data provided by the driver itself">
+                                <abbr>Driver RawData</abbr>
+                            </th>
+                            <td>{{ dump(stat.rawData) }}</td>
+                        </tr>
+                        <tr>
+                            <th title="The configuration that was used to setup the driver instance">
+                                <abbr>Driver Config</abbr>
+                            </th>
+                            <td>{{ dump(collector.instances[name].driverConfig) }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!--
+    - PhpFastcache core config
+    -->
+    <h2>PhpFastCache Core Config<small> ({{ collector.coreConfig|length }})</small></h2>
+    <table class="">
+        <thead>
+        <tr>
+            <th class="key" scope="col">Key</th>
+            <th scope="col">Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key, value in collector.coreConfig %}
+            <tr>
+                <th>{{ key }}</th>
+                <td>{{ dump(value) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!--
+    - PhpFastcache project config
+    -->
+    <h2>PhpFastCache Project Config<small> ({{ collector.projectConfig|length }})</small></h2>
+    <table class="">
+        <thead>
+        <tr>
+            <th class="key" scope="col">Key</th>
+            <th scope="col">Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key, value in collector.projectConfig %}
+            <tr>
+                <th>{{ key }}</th>
+                <td>{{ dump(value) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!--
+    - Twig blocks
+    -->
+    <h2 title="Imbricated cache blocks cannot be shown as the rendered string come from the cache itself instead of standard template rendering."><abbr>PhpFastCache Twig Cache Blocks</abbr><small> ({{ collector.twigCacheBlocks|length }})</small></h2>
+    <table class="">
+        <thead>
+        <tr>
+            <th class="key" scope="col">Block ID</th>
+            <th scope="col"><abbr title="Displays if the data comes from the cache (Yes) or from the template itself (No)">Cache Hit</abbr></th>
+            <th scope="col">Size</th>
+            <th scope="col"><abbr title="In seconds">Time to Live (ttl)</abbr></th>
+            <th scope="col"><abbr title="The time took to render the code inside CACHE/ENDCACHE tags">Generation time</abbr></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key, block in collector.twigCacheBlocks %}
+            <tr>
+                <th>{{ key }}</th>
+                <th style="background-color: {{ block.cacheHit ? '#BBFEC9' : '#FEBBBB' }}">{{ block.cacheHit ? 'Yes' : 'No' }}</th>
+                <td>{{ block.cacheSize|sizeFormat(1) }}</td>
+                <td title="This cached block will expires at {{ profile.time|date_modify("+" ~ block.cacheTtl  ~ " sec")|date('r') }}"><abbr>{{ block.cacheTtl }}</abbr></td>
+                {% set blockGenTime = block.cacheGenTime*1000 %}
+                <td>{{ (blockGenTime < 1000 ? blockGenTime|round(2) ~ 'ms' : (blockGenTime / 1000)|round(4) ~ 's') }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <th colspan="5"><div style="text-align: center">No twig cache block found</div></th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>PhpFastCache API Changelog</h2>
+    <div>
+        <pre>{{ collector.apiChangelog }}</pre>
+    </div>
+{% endblock %}

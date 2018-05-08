@@ -1,0 +1,37 @@
+parameters:
+    php_fast_cache.phpfastcache.class: Phpfastcache\Bundle\Service\Phpfastcache
+    php_fast_cache.human_readable.class: Phpfastcache\Bundle\Twig\HumanReadableExtension\Extension
+    php_fast_cache.twig_cache.class: Phpfastcache\Bundle\Twig\CacheExtension\Extension
+    php_fast_cache.twig_cache_stategy.class: Phpfastcache\Bundle\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy
+    php_fast_cache.twig_cache_provider.class: Phpfastcache\Bundle\Twig\CacheExtension\CacheProvider\PsrCacheAdapter
+
+services:
+    Phpfastcache\Bundle\Service\Phpfastcache:
+        autowire: true
+        public: false
+        arguments:
+            - "%phpfastcache%"
+            - "@?debug.stopwatch"
+    phpfastcache.human_readable_size:
+        class: "%php_fast_cache.human_readable.class%"
+        tags:
+            - { name: twig.extension }
+    phpfastcache.twig_cache_driver_provider:
+        class: "%php_fast_cache.phpfastcache.class%"
+        factory: 'Phpfastcache\Bundle\Service\Phpfastcache:getTwigCacheInstance'
+    phpfastcache.twig_cache_provider:
+        class: "%php_fast_cache.twig_cache_provider.class%"
+        arguments:
+             - "@phpfastcache.twig_cache_driver_provider"
+    phpfastcache.twig_cache_stategy:
+        class: "%php_fast_cache.twig_cache_stategy.class%"
+        arguments:
+            - "@phpfastcache.twig_cache_provider"
+            - "@?phpfastcache.request_collector"
+            - "%phpfastcache%"
+    twig.extension.cache:
+        class: "%php_fast_cache.twig_cache.class%"
+        arguments:
+          - "@phpfastcache.twig_cache_stategy"
+        tags:
+         - { name: twig.extension }

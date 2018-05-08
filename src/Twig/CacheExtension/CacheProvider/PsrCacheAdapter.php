@@ -70,5 +70,4 @@ class PsrCacheAdapter implements CacheProviderInterface
 
         return $this->cache->save($item);
     }
-
 }
