@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('php_fast_cache');
+        $rootNode = $treeBuilder->root('phpfastcache');
 
         $rootNode
             ->children()
@@ -48,7 +48,7 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
-                            ->enumNode('type')->isRequired()->values(CacheManager::getStaticAllDrivers())->end() // @TODO : Add all available drivers
+                            ->enumNode('type')->isRequired()->values(CacheManager::getDriverList())->end() // @TODO : Add all available drivers
                             ->arrayNode('parameters')->isRequired()->prototype('variable')->end()
                         ->end()
                     ->end()
