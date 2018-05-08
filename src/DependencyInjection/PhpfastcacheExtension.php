@@ -16,7 +16,6 @@
 
 namespace Phpfastcache\Bundle\DependencyInjection;
 
-use Phpfastcache\Exceptions\PhpfastcacheDriverException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -31,8 +30,6 @@ class PhpfastcacheExtension extends Extension
     /**
      * {@inheritDoc}
      *
-     * @throws \Phpfastcache\Exceptions\PhpfastcacheDriverCheckException
-     * @throws \Phpfastcache\Exceptions\PhpfastcacheDriverException
      * @throws \Exception
      * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
@@ -47,7 +44,7 @@ class PhpfastcacheExtension extends Extension
          * Includes services_dev.yml only
          * if we are in debug mode
          */
-        if(in_array($container->getParameter('kernel.environment'), ['dev', 'test'])){
+        if(\in_array($container->getParameter('kernel.environment'), ['dev', 'test'], true)){
             $loader->load('services_dev.yml');
         }
 
