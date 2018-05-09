@@ -69,7 +69,7 @@
 {% block menu %}
     <span class="label{% if collector.stats|length == 0 %} disabled{% endif %}">
         <span class="icon">{{ include('@Phpfastcache/Collector/icon.svg') }}</span>
-        <strong>PhpFastCache</strong>
+        <strong>Phpfastcache</strong>
         {% if collector.stats|length > 0 %}
             <span class="count">
                 <span>{{ collector.stats|length }}</span>
@@ -82,7 +82,7 @@
     <!--
     - PhpFastcache Metrics
     -->
-    <h2>PhpFastCache Metrics</h2>
+    <h2>Phpfastcache Metrics</h2>
     <div class="metrics">
         <div class="metric">
             <span class="value">
@@ -117,7 +117,7 @@
     <!--
     - PhpFastcache Instances
     -->
-    <h2>PhpFastCache Cache Instance<small> ({{ collector.stats|length }})</small></h2>
+    <h2>Phpfastcache Instances<small> ({{ collector.stats|length }})</small></h2>
     <div class="sf-tabs">
         {% for name, stat in collector.stats %}
             <div class="tab">
@@ -184,7 +184,7 @@
     <!--
     - PhpFastcache core config
     -->
-    <h2>PhpFastCache Core Config<small> ({{ collector.coreConfig|length }})</small></h2>
+    <h2>Phpfastcache Core Config<small> ({{ collector.coreConfig|length }})</small></h2>
     <table class="">
         <thead>
         <tr>
@@ -205,7 +205,7 @@
     <!--
     - PhpFastcache project config
     -->
-    <h2>PhpFastCache Project Config<small> ({{ collector.projectConfig|length }})</small></h2>
+    <h2>Phpfastcache Project Config<small> ({{ collector.projectConfig|length }})</small></h2>
     <table class="">
         <thead>
         <tr>
@@ -226,7 +226,7 @@
     <!--
     - Twig blocks
     -->
-    <h2 title="Imbricated cache blocks cannot be shown as the rendered string come from the cache itself instead of standard template rendering."><abbr>PhpFastCache Twig Cache Blocks</abbr><small> ({{ collector.twigCacheBlocks|length }})</small></h2>
+    <h2 title="Imbricated cache blocks cannot be shown as the rendered string come from the cache itself instead of standard template rendering."><abbr>Phpfastcache Twig Cache Blocks</abbr><small> ({{ collector.twigCacheBlocks|length }})</small></h2>
     <table class="">
         <thead>
         <tr>
@@ -255,7 +255,7 @@
         </tbody>
     </table>
 
-    <h2>PhpFastCache API Changelog</h2>
+    <h2>Phpfastcache API Changelog</h2>
     <div>
         <pre>{{ collector.apiChangelog }}</pre>
     </div>
