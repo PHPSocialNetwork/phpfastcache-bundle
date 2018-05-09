@@ -27,10 +27,11 @@ class Extension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('sizeFormat', [$this, 'size_format']),
-        );
+        return [
+          new \Twig_SimpleFilter('sizeFormat', [$this, 'size_format']),
+        ];
     }
+
     /**
      * @param int $bytes Bytes/Octets
      * @param int $decimals Number for decimals to return
@@ -41,11 +42,11 @@ class Extension extends \Twig_Extension
      */
     public function size_format($bytes, $decimals = 2, $octetFormat = false, $separator = '')
     {
-        $bytes = (int) $bytes;
-        $sz     = 'BKMGTP';
-        $factor = floor(( strlen($bytes) - 1 ) / 3);
+        $bytes = (int)$bytes;
+        $sz = 'BKMGTP';
+        $factor = floor((\strlen($bytes) - 1) / 3);
 
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).$separator.@$sz[ $factor ].( $factor ? ($octetFormat ? 'O' : 'B') : '' );
+        return sprintf("%.{$decimals}f", $bytes / (1024 ** $factor)) . $separator . @$sz[ $factor ] . ($factor ? ($octetFormat ? 'O' : 'B') : '');
     }
 
     /**

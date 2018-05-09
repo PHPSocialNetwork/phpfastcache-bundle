@@ -31,7 +31,9 @@
         "symfony/console": "^3.4|^4.0",
         "symfony/dependency-injection": "^3.4|^4.0",
         "phpfastcache/phpfastcache": "^7.0",
-        "php": "^7.0"
+        "php": "^7.0",
+        "ext-mbstring": "*",
+        "ext-json": "*"
     },
     "suggest": {
         "symfony/web-profiler-bundle": "To use the data collector."

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a4c62cc1d5e3e520130d28f3e587a88",
+    "content-hash": "8946512f4876179f4225119628e290da",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -509,16 +509,16 @@
         },
         {
             "name": "phpfastcache/phpfastcache",
-            "version": "7.0.0-rc",
+            "version": "v7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPSocialNetwork/phpfastcache.git",
-                "reference": "a1649bc0cf1bfa89df2de7b0b47fd573f42cca62"
+                "reference": "1c5683d7484da57a39cc495f38aa929696aec5f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/a1649bc0cf1bfa89df2de7b0b47fd573f42cca62",
-                "reference": "a1649bc0cf1bfa89df2de7b0b47fd573f42cca62",
+                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/1c5683d7484da57a39cc495f38aa929696aec5f9",
+                "reference": "1c5683d7484da57a39cc495f38aa929696aec5f9",
                 "shasum": ""
             },
             "require": {
@@ -604,7 +604,7 @@
                 "zend memory cache",
                 "zend server"
             ],
-            "time": "2018-04-08T02:13:19+00:00"
+            "time": "2018-05-08T22:02:56+00:00"
         },
         {
             "name": "psr/cache",
@@ -1408,10 +1408,12 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "RC",
+    "minimum-stability": "dev",
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^7.0"
+    },
     "platform-dev": []
 }

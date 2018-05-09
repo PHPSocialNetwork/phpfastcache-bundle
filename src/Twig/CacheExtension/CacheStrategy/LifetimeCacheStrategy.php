@@ -17,10 +17,10 @@
 
 namespace Phpfastcache\Bundle\Twig\CacheExtension\CacheStrategy;
 
+use Phpfastcache\Bundle\DataCollector\CacheCollector;
 use Phpfastcache\Bundle\Twig\CacheExtension\CacheProviderInterface;
 use Phpfastcache\Bundle\Twig\CacheExtension\CacheStrategyInterface;
 use Phpfastcache\Bundle\Twig\CacheExtension\Exception\InvalidCacheLifetimeException;
-use Phpfastcache\Bundle\DataCollector\CacheCollector;
 
 /**
  * Strategy for caching with a pre-defined lifetime.
@@ -58,11 +58,11 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
      * @param \Phpfastcache\Bundle\DataCollector\CacheCollector $cacheCollector
      * @param array $config
      */
-    public function __construct(CacheProviderInterface $cache, CacheCollector $cacheCollector = null, $config)
+    public function __construct(CacheProviderInterface $cache, CacheCollector $cacheCollector = null, array $config)
     {
         $this->cache = $cache;
         $this->cacheCollector = $cacheCollector;
-        $this->config = (array) $config;
+        $this->config = $config;
     }
 
     /**
@@ -71,20 +71,20 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
     public function fetchBlock($key)
     {
         $generationTimeMc = microtime(true);
-        $cacheData = $this->cache->fetch($key['key']);
+        $cacheData = $this->cache->fetch($key[ 'key' ]);
         $generationTime = microtime(true) - $generationTimeMc;
-        $unprefixedKey = substr($key['key'], strlen($this->twigCachePrefix));
+        $unprefixedKey = substr($key[ 'key' ], strlen($this->twigCachePrefix));
 
-        if($this->cacheCollector instanceof CacheCollector){
+        if ($this->cacheCollector instanceof CacheCollector) {
             $this->cacheCollector->setTwigCacheBlock($unprefixedKey, [
               'cacheHit' => $cacheData !== null,
-              'cacheTtl' => $key['lifetime'],
-              'cacheSize' => mb_strlen((string) $cacheData),
-              'cacheGenTime' => $generationTime
+              'cacheTtl' => $key[ 'lifetime' ],
+              'cacheSize' => mb_strlen((string)$cacheData),
+              'cacheGenTime' => $generationTime,
             ]);
         }
 
-        if(!empty($cacheData) && $this->config['twig_block_debug']){
+        if (!empty($cacheData) && $this->config[ 'twig_block_debug' ]) {
             return "<!-- BEGIN CACHE BLOCK OUTPUT '{$unprefixedKey}' -->\n{$cacheData}\n<!-- // END CACHE BLOCK OUTPUT '{$unprefixedKey}' -->";
         }
 
@@ -96,14 +96,14 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
      */
     public function generateKey($annotation, $value)
     {
-        if (!is_numeric($value)) {
+        if (!\is_numeric($value)) {
             throw new InvalidCacheLifetimeException($value);
         }
 
-        return array(
-            'lifetime' => $value,
-            'key'      => $this->twigCachePrefix . $annotation,
-        );
+        return [
+          'lifetime' => $value,
+          'key' => $this->twigCachePrefix . $annotation,
+        ];
     }
 
     /**
@@ -111,17 +111,17 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
      */
     public function saveBlock($key, $block, $generationTime)
     {
-        $unprefixedKey = substr($key['key'], strlen($this->twigCachePrefix));
+        $unprefixedKey = \substr($key[ 'key' ], \strlen($this->twigCachePrefix));
 
-        if($this->cacheCollector instanceof CacheCollector){
+        if ($this->cacheCollector instanceof CacheCollector) {
             $this->cacheCollector->setTwigCacheBlock($unprefixedKey, [
               'cacheHit' => false,
-              'cacheTtl' => $key['lifetime'],
-              'cacheSize' => mb_strlen((string) $block),
-              'cacheGenTime' => $generationTime
+              'cacheTtl' => $key[ 'lifetime' ],
+              'cacheSize' => \mb_strlen((string)$block),
+              'cacheGenTime' => $generationTime,
             ]);
         }
 
-        return $this->cache->save($key['key'], $block, $key['lifetime']);
+        return $this->cache->save($key[ 'key' ], $block, $key[ 'lifetime' ]);
     }
 }

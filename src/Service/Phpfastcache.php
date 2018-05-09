@@ -52,9 +52,9 @@ class Phpfastcache
      *
      * @throws \Phpfastcache\Exceptions\phpFastCacheDriverException
      */
-    public function __construct($config, Stopwatch $stopwatch = null)
+    public function __construct(array $config, Stopwatch $stopwatch = null)
     {
-        $this->config = (array) $config;
+        $this->config = $config;
         $this->stopwatch = $stopwatch;
     }
 
@@ -66,7 +66,7 @@ class Phpfastcache
      *
      * @throws \Phpfastcache\Exceptions\phpFastCacheDriverException
      */
-    public function createInstance($name, ExtendedCacheItemPoolInterface $instance)
+    public function createInstance(string $name, ExtendedCacheItemPoolInterface $instance)
     {
         if (\array_key_exists($name, $this->cacheInstances) && $this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface) {
             throw new PhpfastcacheDriverException("Cache instance '{$name}' already exists");
@@ -84,7 +84,7 @@ class Phpfastcache
      * @throws \Phpfastcache\Exceptions\phpFastCacheDriverException
      * @throws \Phpfastcache\Exceptions\PhpfastcacheInvalidConfigurationException
      */
-    public function get($name): ExtendedCacheItemPoolInterface
+    public function get(string $name): ExtendedCacheItemPoolInterface
     {
         if ($this->stopwatch) {
             $this->stopwatch->start(__METHOD__ . "('{$name}')");

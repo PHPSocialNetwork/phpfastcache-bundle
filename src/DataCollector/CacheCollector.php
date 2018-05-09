@@ -29,7 +29,7 @@ class CacheCollector extends DataCollector
     /**
      * @var \Phpfastcache\Bundle\Service\Phpfastcache
      */
-    private $cache;
+    private $phpfastcache;
 
     /**
      * @var array
@@ -39,11 +39,11 @@ class CacheCollector extends DataCollector
     /**
      * CacheCollector constructor.
      *
-     * @param \Phpfastcache\Bundle\Service\Phpfastcache $cache
+     * @param \Phpfastcache\Bundle\Service\Phpfastcache $phpfastcache
      */
-    public function __construct(Phpfastcache $cache)
+    public function __construct(Phpfastcache $phpfastcache)
     {
-        $this->cache = $cache;
+        $this->phpfastcache = $phpfastcache;
     }
 
     /**
@@ -59,7 +59,7 @@ class CacheCollector extends DataCollector
         $driverUsed = [];
 
         /** @var  $cache */
-        foreach ($this->cache->getInstances() as $instanceName => $cache) {
+        foreach ($this->phpfastcache->getInstances() as $instanceName => $cache) {
             if ($cache->getStats()->getSize()) {
                 $size += $cache->getStats()->getSize();
             }
@@ -91,98 +91,98 @@ class CacheCollector extends DataCollector
             'namespacePath (deprecated)' => CacheManager::getNamespacePath(),
           ],
           'projectConfig' => [
-            'twig_driver' => $this->cache->getConfig()['twig_driver'],
-            'twig_block_debug' => $this->cache->getConfig()['twig_block_debug'],
+            'twig_driver' => $this->phpfastcache->getConfig()['twig_driver'],
+            'twig_block_debug' => $this->phpfastcache->getConfig()['twig_block_debug'],
           ],
         ];
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getStats()
+    public function getStats(): array
     {
-        return $this->data[ 'stats' ];
+        return $this->data[ 'stats' ] ?? [];
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getInstances()
+    public function getInstances(): array
     {
         return $this->data[ 'instances' ];
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getDriverUsed()
+    public function getDriverUsed(): array
     {
-        return $this->data[ 'driverUsed' ];
+        return $this->data[ 'driverUsed' ] ?? [];
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getHits()
+    public function getHits(): array
     {
-        return $this->data[ 'hits' ];
+        return $this->data[ 'hits' ] ?? [];
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getSize()
+    public function getSize(): int
     {
-        return $this->data[ 'size' ];
+        return $this->data[ 'size' ] ?? 0;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getCoreConfig()
+    public function getCoreConfig(): array
     {
-        return $this->data[ 'coreConfig' ];
+        return $this->data[ 'coreConfig' ] ?? [];
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getProjectConfig()
+    public function getProjectConfig(): array
     {
-        return $this->data[ 'projectConfig' ];
+        return $this->data[ 'projectConfig' ] ?? [];
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getApiVersion()
+    public function getApiVersion(): string
     {
         return $this->data[ 'apiVersion' ];
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getPfcVersion()
+    public function getPfcVersion(): string
     {
         return $this->data[ 'pfcVersion' ];
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getBundleVersion()
+    public function getBundleVersion(): string
     {
         return $this->data[ 'bundleVersion' ];
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getApiChangelog()
+    public function getApiChangelog(): string
     {
-        return $this->data[ 'apiChangelog' ];
+        return $this->data[ 'apiChangelog' ] ?? '';
     }
 
     /**
@@ -190,10 +190,10 @@ class CacheCollector extends DataCollector
      * @param array $cacheBlock
      * @return $this
      */
-    public function setTwigCacheBlock($blockName, array $cacheBlock)
+    public function setTwigCacheBlock($blockName, array $cacheBlock): self
     {
         if(isset($this->twig_cache_blocks[$blockName])){
-            $this->twig_cache_blocks[$blockName] = array_merge($this->twig_cache_blocks[$blockName], $cacheBlock);
+            $this->twig_cache_blocks[$blockName] = \array_merge($this->twig_cache_blocks[$blockName], $cacheBlock);
         }else{
             $this->twig_cache_blocks[$blockName] = $cacheBlock;
         }
@@ -205,21 +205,25 @@ class CacheCollector extends DataCollector
     /**
      * @return array
      */
-    public function getTwigCacheBlocks()
+    public function getTwigCacheBlocks(): array
     {
-        return $this->data[ 'twigCacheBlocks' ];
+        return $this->data[ 'twigCacheBlocks' ] ?? [];
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
-    public function getName()
+    public function getName(): string
     {
         return 'phpfastcache';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function reset()
     {
-        // TODO: Implement reset() method.
+        $this->data = [];
+        $this->twig_cache_blocks = [];
     }
 }
