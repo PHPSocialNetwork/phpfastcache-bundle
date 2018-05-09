@@ -16,16 +16,40 @@
 
 namespace Phpfastcache\Bundle\Command;
 
+use Phpfastcache\Bundle\Service\Phpfastcache;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Exceptions\PhpfastcacheDriverCheckException;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Command\Command;
 
-class PhpfastcacheCommand extends ContainerAwareCommand
+class PhpfastcacheCommand extends Command
 {
+    /**
+     * @var \Phpfastcache\Bundle\Service\Phpfastcache
+     */
+    protected $phpfastcache;
+
+    /**
+     * @var
+     */
+    protected $parameters;
+
+    /**
+     * PhpfastcacheCommand constructor.
+     * @param \Phpfastcache\Bundle\Service\Phpfastcache $phpfastcache
+     * @param $parameters
+     */
+    public function __construct(Phpfastcache $phpfastcache, $parameters)
+    {
+        $this->phpfastcache = $phpfastcache;
+        $this->parameters = $parameters;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -38,23 +62,28 @@ class PhpfastcacheCommand extends ContainerAwareCommand
             )
         ;
     }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @return int|null|void
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $failedInstances = [];
         $io = new SymfonyStyle($input, $output);
 
-        $phpFastCache = $this->getContainer()->get('phpfastcache');
         $driver = $input->getArgument('driver');
 
         $output->writeln("<bg=yellow;fg=red>Clearing cache operation can take a while, please be patient...</>");
 
-        $callback = function($name) use ($phpFastCache, $output, &$failedInstances)
+        $callback = function($name) use ($output, &$failedInstances)
         {
             try{
                 if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                     $output->writeln("<fg=yellow>Clearing instance {$name} cache...</>");
                 }
-                $phpFastCache->get($name)->clear();
+                $this->phpfastcache->get($name)->clear();
                 if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                     $output->writeln("<fg=green>Cache instance {$name} cleared</>");
                 }
@@ -67,7 +96,8 @@ class PhpfastcacheCommand extends ContainerAwareCommand
                 }
             }
         };
-        $caches = $this->getContainer()->getParameter('phpfastcache');
+
+        $caches = $this->parameters;
 
         if($driver) {
             if(\array_key_exists($driver, $caches['drivers'])){

@@ -12,6 +12,10 @@ services:
         arguments:
             - "%phpfastcache%"
             - "@?debug.stopwatch"
+    Phpfastcache\Bundle\Command\PhpfastcacheCommand:
+        arguments: ['@Phpfastcache\Bundle\Service\Phpfastcache', '%phpfastcache%']
+        tags:
+            - { name: console.command }
     phpfastcache.human_readable_size:
         class: "%php_fast_cache.human_readable.class%"
         tags:
