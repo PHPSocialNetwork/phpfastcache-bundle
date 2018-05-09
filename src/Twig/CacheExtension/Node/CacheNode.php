@@ -45,7 +45,7 @@ class CacheNode extends \Twig_Node
     {
         $i = self::$cacheCount++;
 
-        if (version_compare(\Twig_Environment::VERSION, '1.26.0', '>=')) {
+        if (\version_compare(\Twig_Environment::VERSION, '1.26.0', '>=')) {
             $extension = \Phpfastcache\Bundle\Twig\CacheExtension\Extension::class;
         } else {
             $extension = 'phpfastcache_cache';
@@ -62,15 +62,15 @@ class CacheNode extends \Twig_Node
             ->write("\$phpfastcacheCacheBody".$i." = \$phpfastcacheCacheStrategy".$i."->fetchBlock(\$phpfastcacheKey".$i.");\n")
             ->write("if (\$phpfastcacheCacheBody".$i." === false) {\n")
             ->indent()
-                ->write("ob_start();\n")
-                ->write("\$compileMc = microtime(true);\n")
+                ->write("\\ob_start();\n")
+                ->write("\$compileMc = \\microtime(true);\n")
                     ->indent()
                         ->subcompile($this->getNode('body'))
                     ->outdent()
                 ->write("\n")
                 // ->write("sleep(2);\n") // For debug purpose
-                ->write("\$phpfastcacheCacheBody".$i." = ob_get_clean();\n")
-                ->write("\$phpfastcacheCacheStrategy".$i."->saveBlock(\$phpfastcacheKey".$i.", \$phpfastcacheCacheBody".$i.", microtime(true) - \$compileMc);\n")
+                ->write("\$phpfastcacheCacheBody".$i." = \\ob_get_clean();\n")
+                ->write("\$phpfastcacheCacheStrategy".$i."->saveBlock(\$phpfastcacheKey".$i.", \$phpfastcacheCacheBody".$i.", \\microtime(true) - \$compileMc);\n")
             ->outdent()
             ->write("}\n")
             ->write("echo \$phpfastcacheCacheBody".$i.";\n")

@@ -70,9 +70,9 @@ class PhpfastcacheCommand extends ContainerAwareCommand
         $caches = $this->getContainer()->getParameter('phpfastcache');
 
         if($driver) {
-            if(array_key_exists($driver, $caches['drivers'])){
+            if(\array_key_exists($driver, $caches['drivers'])){
                 $callback($driver);
-                if(!count($failedInstances)){
+                if(!\count($failedInstances)){
                     $io->success("Cache instance {$driver} cleared");
                 }else{
                     $io->error("Cache instance {$driver} not cleared");
@@ -84,10 +84,10 @@ class PhpfastcacheCommand extends ContainerAwareCommand
             foreach($caches['drivers'] as $name => $parameters) {
                 $callback($name);
             }
-            if(!count($failedInstances)){
+            if(!\count($failedInstances)){
                 $io->success('All caches instances got cleared');
             }else{
-                $io->success('Almost all caches instances got cleared, except these: ' . implode(', ', $failedInstances));
+                $io->success('Almost all caches instances got cleared, except these: ' . \implode(', ', $failedInstances));
             }
         }
     }

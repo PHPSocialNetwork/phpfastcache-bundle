@@ -47,8 +47,8 @@ class Extension extends \Twig_Extension
      */
     public function getName()
     {
-        if (version_compare(\Twig_Environment::VERSION, '1.26.0', '>=')) {
-            return get_class($this);
+        if (\version_compare(\Twig_Environment::VERSION, '1.26.0', '>=')) {
+            return \get_class($this);
         }
         return 'phpfastcache_cache';
     }
@@ -58,8 +58,8 @@ class Extension extends \Twig_Extension
      */
     public function getTokenParsers()
     {
-        return array(
-            new TokenParser\Cache(),
-        );
+        return [
+          new TokenParser\Cache(),
+        ];
     }
 }

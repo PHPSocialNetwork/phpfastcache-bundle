@@ -68,7 +68,7 @@ class Phpfastcache
      */
     public function createInstance($name, ExtendedCacheItemPoolInterface $instance)
     {
-        if (array_key_exists($name, $this->cacheInstances) && $this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface) {
+        if (\array_key_exists($name, $this->cacheInstances) && $this->cacheInstances[ $name ] instanceof ExtendedCacheItemPoolInterface) {
             throw new PhpfastcacheDriverException("Cache instance '{$name}' already exists");
         }
         $this->cacheInstances[ $name ] = $instance;
@@ -79,21 +79,21 @@ class Phpfastcache
      *
      * @param string $name Name of configured driver
      *
-     * @return \Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface
+     * @return ExtendedCacheItemPoolInterface
      *
      * @throws \Phpfastcache\Exceptions\phpFastCacheDriverException
      * @throws \Phpfastcache\Exceptions\PhpfastcacheInvalidConfigurationException
      */
-    public function get($name)
+    public function get($name): ExtendedCacheItemPoolInterface
     {
         if ($this->stopwatch) {
             $this->stopwatch->start(__METHOD__ . "('{$name}')");
         }
 
-        if (!array_key_exists($name, $this->cacheInstances)) {
-            if (array_key_exists($name, $this->config[ 'drivers' ])) {
+        if (!\array_key_exists($name, $this->cacheInstances)) {
+            if (\array_key_exists($name, $this->config[ 'drivers' ])) {
                 $driverClass = CacheManager::getDriverClass($this->config[ 'drivers' ][ $name ][ 'type' ]);
-                if (is_a($driverClass, ExtendedCacheItemPoolInterface::class, true)){
+                if (\is_a($driverClass, ExtendedCacheItemPoolInterface::class, true)){
                     $configClass = $driverClass::getConfigClass();
                     if(\class_exists($configClass)){
                         $this->createInstance(
@@ -125,7 +125,7 @@ class Phpfastcache
     /**
      * @return \Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface
      */
-    public function getTwigCacheInstance()
+    public function getTwigCacheInstance(): ExtendedCacheItemPoolInterface
     {
         return $this->get($this->config[ 'twig_driver' ]);
     }
@@ -135,7 +135,7 @@ class Phpfastcache
      *
      * @return array
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->config;
     }
@@ -145,7 +145,7 @@ class Phpfastcache
      *
      * @return \Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface[]
      */
-    public function getInstances()
+    public function getInstances(): array
     {
         return $this->cacheInstances;
     }

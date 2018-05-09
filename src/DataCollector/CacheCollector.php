@@ -69,7 +69,7 @@ class CacheCollector extends DataCollector
               'configClassName' => \get_class( $cache->getConfig()),
               'driverConfig' => $cache->getConfig()->toArray()
             ];
-            $driverUsed[ $cache->getDriverName() ] = get_class($cache);
+            $driverUsed[ $cache->getDriverName() ] = \get_class($cache);
         }
 
         $this->data = [
