@@ -1,9 +1,5 @@
-parameters:
-    php_fast_cache.data_collector.class: Phpfastcache\Bundle\DataCollector\CacheCollector
-
 services:
-    data_collector.phpfastcache:
-        class: "%php_fast_cache.data_collector.class%"
+    Phpfastcache\Bundle\DataCollector\CacheCollector:
         arguments:
             - '@Phpfastcache\Bundle\Service\Phpfastcache'
         public: false
