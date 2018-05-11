@@ -30,10 +30,25 @@
         "symfony/framework-bundle": "^3.4|^4.0",
         "symfony/console": "^3.4|^4.0",
         "symfony/dependency-injection": "^3.4|^4.0",
+        "symfony/http-foundation": "^3.4 || ^4.0",
+        "symfony/yaml": "^3.4 || ^4.0",
         "phpfastcache/phpfastcache": "^7.0",
         "php": "^7.0",
         "ext-mbstring": "*",
         "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2 || ^7.1",
+        "predis/predis": "^1.0",
+        "symfony/browser-kit": "^3.4 || ^4.0",
+        "symfony/console": "^3.4 || ^4.0",
+        "symfony/phpunit-bridge": "^3.4 || ^4.0",
+        "symfony/profiler-pack": "^1.0",
+        "symfony/twig-bundle": "^3.4 || ^4.0"
+    },
+    "config": {
+        "bin-dir": "bin/",
+        "sort-packages": true
     },
     "suggest": {
         "symfony/web-profiler-bundle": "To use the data collector."

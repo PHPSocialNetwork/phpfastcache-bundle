@@ -1,43 +1,41 @@
-#
-# This file is part of phpFastCache.
-#
-# @license MIT License (MIT)
-#
-# For full copyright and license information, please see the docs/CREDITS.txt file.
-#
-# @author Khoa Bui (khoaofgod)  <khoaofgod@gmail.com> http://www.phpfastcache.com
-# @author Georges.L (Geolim4)  <contact@geolim4.com>
-#
-sudo: false
-
 language: php
 
 services:
-  - memcached
   - redis-server
-before_script:
-  - |
-    if [[ $TRAVIS_PHP_VERSION = "hhv"* ]]; then
-      cat var/php/conf/phpfastcache.ini >> /etc/hhvm/php.ini
-    else
-      phpenv config-add var/php/conf/phpfastcache.ini
-    fi
 
 php:
   - 7.0
   - 7.1
   - 7.2
-  - nightly
-  - hhvm
 
 matrix:
-  fast_finish: true
-  allow_failures:
-    - php: nightly
-    - php: hhvm
+  include:
+    - php: 7.1
+      env: SYMFONY_VERSION="3.4.*"
+    - php: 7.2
+      env: SYMFONY_VERSION="3.4.*"
+    - php: 7.0
+      env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak"
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+env:
+  global:
+    - SYMFONY_DEPRECATIONS_HELPER="weak_vendors"
+
+before_install:
+  - phpenv config-rm xdebug.ini || true
+  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;
+  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then phpenv rehash; fi;
+  - composer self-update
+  - if [ "$SYMFONY_VERSION" != "" ]; then composer require --no-update symfony/symfony:${SYMFONY_VERSION}; fi;
 
 install:
-  - ./bin/ci/install_dependencies.sh
+  - composer update --no-interaction --no-progress $COMPOSER_FLAGS
 
-script:
-  - php -f tests/SyntaxChecker.test.php
+before_script:
+- mkdir Phpfastcache && ln -s ../ Phpfastcache/PhpfastcacheBundle
