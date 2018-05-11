@@ -231,6 +231,7 @@
         <thead>
         <tr>
             <th class="key" scope="col">Block ID</th>
+            <th scope="col"><abbr title="The Twig file where the CACHE/ENDCACHE tags resides">File</abbr></th>
             <th scope="col"><abbr title="Displays if the data comes from the cache (Yes) or from the template itself (No)">Cache Hit</abbr></th>
             <th scope="col">Size</th>
             <th scope="col"><abbr title="In seconds">Time to Live (ttl)</abbr></th>
@@ -240,7 +241,8 @@
         <tbody>
         {% for key, block in collector.twigCacheBlocks %}
             <tr>
-                <th>{{ key }}</th>
+                <td><strong>{{ key }}</strong></td>
+                <td><span>In </span><abbr><span title="{{ block.cacheFilePath }}">{{ block.cacheFileName }}</span></abbr></td>
                 <th style="background-color: {{ block.cacheHit ? '#BBFEC9' : '#FEBBBB' }}">{{ block.cacheHit ? 'Yes' : 'No' }}</th>
                 <td>{{ block.cacheSize|sizeFormat(1) }}</td>
                 <td title="This cached block will expires at {{ profile.time|date_modify("+" ~ block.cacheTtl  ~ " sec")|date('r') }}"><abbr>{{ block.cacheTtl }}</abbr></td>
@@ -249,7 +251,7 @@
             </tr>
         {% else %}
             <tr>
-                <th colspan="5"><div style="text-align: center">No twig cache block found</div></th>
+                <th colspan="6"><div style="text-align: center">No twig cache block found</div></th>
             </tr>
         {% endfor %}
         </tbody>

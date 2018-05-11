@@ -14,6 +14,7 @@
  * @author Khoa Bui (khoaofgod)  <khoaofgod@gmail.com> http://www.phpfastcache.com
  *
  */
+declare(strict_types=1);
 
 namespace Phpfastcache\Bundle\Twig\CacheExtension\CacheStrategy;
 
@@ -68,12 +69,12 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
     /**
      * {@inheritDoc}
      */
-    public function fetchBlock($key)
+    public function fetchBlock($key, \Twig_Source $sourceContext)
     {
-        $generationTimeMc = microtime(true);
+        $generationTimeMc = \microtime(true);
         $cacheData = $this->cache->fetch($key[ 'key' ]);
-        $generationTime = microtime(true) - $generationTimeMc;
-        $unprefixedKey = substr($key[ 'key' ], strlen($this->twigCachePrefix));
+        $generationTime = \microtime(true) - $generationTimeMc;
+        $unprefixedKey = \substr($key[ 'key' ], \strlen($this->twigCachePrefix));
 
         if ($this->cacheCollector instanceof CacheCollector) {
             $this->cacheCollector->setTwigCacheBlock($unprefixedKey, [
@@ -81,6 +82,8 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
               'cacheTtl' => $key[ 'lifetime' ],
               'cacheSize' => mb_strlen((string)$cacheData),
               'cacheGenTime' => $generationTime,
+              'cacheFileName' => $sourceContext->getName(),
+              'cacheFilePath' => $sourceContext->getPath(),
             ]);
         }
 
@@ -109,7 +112,7 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
     /**
      * {@inheritDoc}
      */
-    public function saveBlock($key, $block, $generationTime)
+    public function saveBlock($key, $block, $generationTime, \Twig_Source $sourceContext)
     {
         $unprefixedKey = \substr($key[ 'key' ], \strlen($this->twigCachePrefix));
 
@@ -119,6 +122,8 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
               'cacheTtl' => $key[ 'lifetime' ],
               'cacheSize' => \mb_strlen((string)$block),
               'cacheGenTime' => $generationTime,
+              'cacheFileName' => $sourceContext->getName(),
+              'cacheFilePath' => $sourceContext->getPath(),
             ]);
         }
 

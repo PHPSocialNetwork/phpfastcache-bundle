@@ -31,7 +31,7 @@ interface CacheStrategyInterface
      *
      * @return mixed
      */
-    public function fetchBlock($key);
+    public function fetchBlock($key, \Twig_Source $sourceContext);
 
     /**
      * Generate a key for the value.
@@ -52,5 +52,5 @@ interface CacheStrategyInterface
      *
      * @return mixed
      */
-    public function saveBlock($key, $block, $generationTime);
+    public function saveBlock($key, $block, $generationTim, \Twig_Source $sourceContext);
 }

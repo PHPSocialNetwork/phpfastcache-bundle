@@ -14,6 +14,7 @@
  * @author Khoa Bui (khoaofgod)  <khoaofgod@gmail.com> http://www.phpfastcache.com
  *
  */
+declare(strict_types=1);
 
 namespace Phpfastcache\Bundle\Twig\CacheExtension\TokenParser;
 

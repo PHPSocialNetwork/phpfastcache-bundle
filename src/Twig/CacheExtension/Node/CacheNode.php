@@ -14,6 +14,7 @@
  * @author Khoa Bui (khoaofgod)  <khoaofgod@gmail.com> http://www.phpfastcache.com
  *
  */
+declare(strict_types=1);
 
 namespace Phpfastcache\Bundle\Twig\CacheExtension\Node;
 
@@ -63,7 +64,7 @@ class CacheNode extends \Twig_Node
                 ->raw(", ")
                 ->subcompile($this->getNode('key_info'))
             ->write(");\n")
-            ->write("\$phpfastcacheCacheBody".$i." = \$phpfastcacheCacheStrategy".$i."->fetchBlock(\$phpfastcacheKey".$i.");\n")
+            ->write("\$phpfastcacheCacheBody".$i." = \$phpfastcacheCacheStrategy".$i."->fetchBlock(\$phpfastcacheKey".$i.", \$this->getSourceContext());\n")
             ->write("if (\$phpfastcacheCacheBody".$i." === false) {\n")
             ->indent()
                 ->write("\\ob_start();\n")
@@ -74,7 +75,7 @@ class CacheNode extends \Twig_Node
                 ->write("\n")
                 // ->write("sleep(2);\n") // For debug purpose
                 ->write("\$phpfastcacheCacheBody".$i." = \\ob_get_clean();\n")
-                ->write("\$phpfastcacheCacheStrategy".$i."->saveBlock(\$phpfastcacheKey".$i.", \$phpfastcacheCacheBody".$i.", \\microtime(true) - \$compileMc);\n")
+                ->write("\$phpfastcacheCacheStrategy".$i."->saveBlock(\$phpfastcacheKey".$i.", \$phpfastcacheCacheBody".$i.", \\microtime(true) - \$compileMc, \$this->getSourceContext());\n")
             ->outdent()
             ->write("}\n")
             ->write("echo \$phpfastcacheCacheBody".$i.";\n")
