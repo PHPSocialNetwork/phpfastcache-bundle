@@ -1,16 +1,23 @@
 <?php
-/*
- * This file is part of the SncRedisBundle package.
+/**
  *
- * (c) Henrik Westphal <henrik.westphal@gmail.com>
+ * This file is part of phpFastCache.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @license MIT License (MIT)
+ *
+ * For full copyright and license information, please see the docs/CREDITS.txt file.
+ *
+ * @author Georges.L (Geolim4)  <contact@geolim4.com>
+ * @author PastisD https://github.com/PastisD
+ *
  */
 namespace Phpfastcache\PhpfastcacheBundle\Tests\Service;
 use PHPUnit\Framework\TestCase;
 
 class PhpfastcacheTest extends TestCase
 {
-
+    public function testServiceTypeHint()
+    {
+        $this->assertEquals(true, true);
+    }
 }
