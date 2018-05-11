@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Phpfastcache\Bundle\Service\Phpfastcache;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,30 +13,30 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, Phpfastcache $phpfastcache)
     {
         $pfc_test = null;
 
-        $cache = $this->get('phpfastcache')->get('filecache');
-        $cache2 = $this->get('phpfastcache')->get('memcachecache');
-        $cache3 = $this->get('phpfastcache')->get('ssdbcache');
-        $cache4 = $this->get('phpfastcache')->get('sqlitecache');
-        $cache5 = $this->get('phpfastcache')->get('rediscache');
-        $cache6 = $this->get('phpfastcache')->get('mongodbcache');
-        $cache7 = $this->get('phpfastcache')->get('couchbasecache');
-        $cache8 = $this->get('phpfastcache')->get('leveldbcache');
+        $cache = $phpfastcache->get('filecache');
+        $cache2 = $phpfastcache->get('memcachecache');
+        $cache3 = $phpfastcache->get('ssdbcache');
+        $cache4 = $phpfastcache->get('sqlitecache');
+        $cache5 = $phpfastcache->get('rediscache');
+        $cache6 = $phpfastcache->get('mongodbcache');
+        $cache7 = $phpfastcache->get('couchbasecache');
+        $cache8 = $phpfastcache->get('leveldbcache');
 
         /**
          * Xcache and APC cannot coexists
          */
         try{
-            $cache9 = $this->get('phpfastcache')->get('apccache');
-            $cache10 = $this->get('phpfastcache')->get('apcucache');
+            $cache9 = $phpfastcache->get('apccache');
+            $cache10 = $phpfastcache->get('apcucache');
         }catch(PhpfastcacheDriverCheckException $e){
-            $cache11 = $this->get('phpfastcache')->get('xcachecache');
+            $cache11 = $phpfastcache->get('xcachecache');
         }
 
-        $cache12 = $this->get('phpfastcache')->get('devnullcache');
+        $cache12 = $phpfastcache->get('devnullcache');
 
 
         $item = $cache->getItem('test');

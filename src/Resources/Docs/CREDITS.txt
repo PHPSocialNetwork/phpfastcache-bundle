@@ -20,15 +20,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-phpFastCache Bundle  Bundle Project Manager:   Georges.L (Geolim4)
+phpFastCache Bundle Project Manager:   Georges.L (Geolim4)
 
 phpFastCache Bundle Contributors:      https://github.com/PHPSocialNetwork/phpfastcache-bundle/graphs/contributors
 
 Specials thanks:
 
-- PastisD for helping us at the beginning of the project
+- PastisD for its momentous contributions
 - Alexander (asm89) for providing the great Twig Extension slightly modified and integrated to the PhpFastCache bundle
-
 
 Software licenses:
 

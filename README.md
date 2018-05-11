@@ -1,12 +1,9 @@
 [![Code Climate](https://codeclimate.com/github/PHPSocialNetwork/phpfastcache-bundle/badges/gpa.svg)](https://codeclimate.com/github/PHPSocialNetwork/phpfastcache-bundle) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/PHPSocialNetwork/phpfastcache-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/PHPSocialNetwork/phpfastcache-bundle/?branch=master) [![Build Status](https://travis-ci.org/PHPSocialNetwork/phpfastcache-bundle.svg?branch=master)](https://travis-ci.org/PHPSocialNetwork/phpfastcache-bundle) [![Latest Stable Version](http://img.shields.io/packagist/v/phpfastcache/phpfastcache-bundle.svg)](https://packagist.org/packages/phpfastcache/phpfastcache-bundle) [![Total Downloads](http://img.shields.io/packagist/dt/phpfastcache/phpfastcache-bundle.svg)](https://packagist.org/packages/phpfastcache/phpfastcache-bundle) [![Dependency Status](https://www.versioneye.com/php/phpfastcache:phpfastcache-bundle/badge.svg)](https://www.versioneye.com/php/phpfastcache:phpfastcache-bundle) [![License](https://img.shields.io/packagist/l/phpfastcache/phpfastcache-bundle.svg)](https://packagist.org/packages/phpfastcache/phpfastcache-bundle)
-# Symfony 3 PhpFastCache Bundle
+# Symfony 4 PhpFastCache Bundle
 
 #### :warning: Please note that the V3 is a major (BC breaking) update of the PhpFastCache Bundle !
 > As of the V3 the bundle is **absolutely** not compatible with previous versions.u the smoothest migration possible.
-One of the biggest change is the Phpfastcache's dependency which is not set to the v7 which it not backward compatible at all.
-Also please note that the bundle is currently in development and under a massive code rewrite.
-:warning: The code of the v3 is NOT production or development ready ATM.
-
+> One of the biggest change is the Phpfastcache's dependency which is not set to the v7 which it not backward compatible at all.
 
 #### :thumbsup: Step 1: Include phpFastCache Bundle in your project with composer:
 
@@ -14,12 +11,11 @@ Also please note that the bundle is currently in development and under a massive
 composer require phpfastcache/phpfastcache-bundle
 ```
 
-#### :construction: Step 2: Setup your config.yml to configure your cache(s) instance(s)
-
+#### :construction: Step 2: Setup your `config/packages/phpfastcache.yaml` to configure your cache(s) instance(s)
 
 ```yml
 # PhpFastCache configuration
-php_fast_cache:
+phpfastcache:
     twig_driver: "filecache" # This option must be a valid declared driver, in our example: "filecache"
     twig_block_debug: false # This option will wrap CACHE/ENDCACHE blocks with block debug as HTML comment
     drivers:
@@ -28,23 +24,15 @@ php_fast_cache:
             parameters:
                 path: "%kernel.cache_dir%/phpfastcache/"
 ```
-* More examples in Docs/Example/app/config
+* This step can be skipped using [Symfony recipes](https://symfony.com/doc/current/setup/flex.html).
 
-#### :wrench: Step 3: Setup your AppKernel.php by adding the phpFastCache Bundle
-
-```php
-$bundles[] = new Phpfastcache\Bundle\phpFastCacheBundle();
-```
-
-* See the file Docs/Example/app/AppKernel.php for more information.
-
-#### :rocket: Step 4: Accelerate your app by making use of PhpFastCache service
+#### :rocket: Step 3: Accelerate your app by making use of PhpFastCache service
 
 Caching data in your controller:
 ```php
-public function indexAction(Request $request)
+public function indexAction(Request $request, Phpfastcache $phpfastcache)
 {
-    $cache = $this->get('phpfastcache')->get('filecache');
+    $cache = $phpfastcache->get('filecache');
     $item = $cache->getItem('myAppData');
     
     if (!$item->isHit() || $item->get() === null) {

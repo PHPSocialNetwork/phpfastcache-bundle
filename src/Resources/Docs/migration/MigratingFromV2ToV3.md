@@ -30,3 +30,56 @@ phpfastcache:
                 path: "%kernel.cache_dir%/phpfastcache/"
 ```
 Notice the change from "php_fast_cache" to "phpfastcache".
+
+### Service container
+
+We used to call the container getter to retrieve the "phpfastcache" service.
+#### :clock1: Then:
+```php
+<?php
+
+namespace AppBundle\Controller;
+
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
+class DefaultController extends Controller
+{
+    /**
+     * @Route("/", name="homepage")
+     */
+    public function indexAction(Request $request)
+    {
+        $cache = $this->get('phpfastcache')->get('filecache');
+        // ...
+    }
+}
+```
+
+#### :alarm_clock: Now:
+This is no longer possible since the service is now private and can be retrieved via the dependency injection 
+using the Symfony [autowire](https://symfony.com/doc/current/service_container/autowiring.html) feature.
+```php
+<?php
+
+namespace AppBundle\Controller;
+
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Phpfastcache\Bundle\Service\Phpfastcache;
+
+class DefaultController extends Controller
+{
+    /**
+     * @Route("/", name="homepage")
+     */
+    public function indexAction(Request $request, Phpfastcache $phpfastcache)
+    {
+        $cache = $phpfastcache->get('filecache');
+        // ...
+    }
+}
+```
+
