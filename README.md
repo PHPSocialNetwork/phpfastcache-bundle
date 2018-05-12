@@ -62,6 +62,23 @@ Or in your template:
     {% endcache %}
 </div>
 ```
+#### :bulb: Introducing Cacheable Responses (V3 only)
+As of the V3 there's a new, easier and cleaner way to setup HTTP cache to decrease your server bandwidth along your CPU load: Cacheable Responses.
+And it's pretty easy to implement:
+```php
+    /**
+     * @Route("/cached", name="cached")
+     */
+    public function cachedAction(Phpfastcache $phpfastcache, Request $request): Response
+    {
+        return (new CacheableResponse($phpfastcache->get('filecache'), $request))->getResponse('cache_key', 3600, function () {
+            return new Response('Random bytes: ' . \random_bytes(255));
+        });
+    }
+``` 
+`CacheableResponse` is provided by `\Phpfastcache\Bundle\Response\CacheableResponse`.
+This class will handle responses headers (cache-control, etag, etc...) and http status (304 Not modified).
+
 #### :boom: phpFastCache Bundle support
 Found an issue or had an idea ? Come here [here](https://github.com/PHPSocialNetwork/phpfastcache-bundle/issues) and let us know !
 
