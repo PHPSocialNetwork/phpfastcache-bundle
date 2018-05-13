@@ -63,8 +63,9 @@ class Kernel extends BaseKernel
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
         $routes->add('/', CacheController::class . ':index');
-        $routes->add('/cache/miss', CacheController::class . ':cacheMiss');
-        $routes->add('/cache/hit', CacheController::class . ':cacheHit');
+        $routes->add('/cache-test', CacheController::class . ':cacheTest');
+        $routes->add('/cache-error', CacheController::class . ':cacheError');
+        $routes->add('/cache-http', CacheController::class . ':cacheHttp');
     }
 
     /**

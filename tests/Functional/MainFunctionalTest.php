@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace Phpfastcache\Bundle\Tests\Functional;
 
 use Phpfastcache\Bundle\Tests\Functional\App\Kernel;
+use Phpfastcache\CacheManager as PhpfastcacheManager;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -28,8 +29,9 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class IntegrationTest
  * @package Phpfastcache\Bundle\Tests\Functional
+ * @runInSeparateProcesses
  */
-class IntegrationTest extends WebTestCase
+class MainFunctionalTest extends WebTestCase
 {
     /** @var Client */
     private $client;
@@ -37,25 +39,74 @@ class IntegrationTest extends WebTestCase
     protected function setUp()
     {
         $this->client = static::createClient();
+        PhpfastcacheManager::clearInstances();
     }
 
-    public function testIntegration()
+    public function testCacheMiss()
     {
-        $response = $this->profileRequest('GET', '/');
+        $response = $this->profileRequest('GET', '/cache-test');
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertSame('miss', \json_decode($response->getContent(), true)['cache']);
+    }
+
+    public function testCacheHit()
+    {
+        $response = $this->profileRequest('GET', '/cache-test');
+
+        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertSame('hit', \json_decode($response->getContent(), true)['cache']);
+    }
+
+    public function testCacheError()
+    {
+        $response = $this->profileRequest('GET', '/cache-error');
+
+        $this->assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+    }
+
+    public function testCacheHttp()
+    {
+        /**
+         * The first request should be a MISS one
+         */
+        $response = $this->profileRequest('GET', '/cache-http');
+        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
+        $etag = $response->getEtag();
+
+        /**
+         * Clear instance to avoid Phpfastcache alerts
+         * as we are in a shared process context
+         */
+        PhpfastcacheManager::clearInstances();
+
+        /**
+         * The second request should be a HIT one with a 304 response
+         */
+        $response = $this->profileRequest('GET', '/cache-http', [
+          'If-None-Match' => $etag
+        ]);
+        $this->assertSame(Response::HTTP_NOT_MODIFIED, $response->getStatusCode());
+        $this->assertSame('', trim($response->getContent()));
     }
 
     /**
      * @param string $method
      * @param string $uri
+     * @param array $headers
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function profileRequest(string $method, string $uri): Response
+    private function profileRequest(string $method, string $uri, array $headers = []): Response
     {
         $client = $this->client;
         $client->enableProfiler();
-        $client->request($method, $uri);
+        $serverParameter = [];
+
+        foreach ($headers as $headerKey => $headerVal) {
+            $serverParameter['HTTP_' . \str_replace('-', '_', \strtoupper($headerKey))] = $headerVal;
+        }
+
+        $client->request($method, $uri, [], [], $serverParameter);
 
         return $client->getResponse();
     }

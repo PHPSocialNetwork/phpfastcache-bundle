@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace Phpfastcache\Bundle\Tests\Functional\App\Controller;
 
+use Phpfastcache\Bundle\Response\CacheableResponse;
 use Phpfastcache\Bundle\Service\Phpfastcache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,9 +46,21 @@ class CacheController extends AbstractController
      * @param \Phpfastcache\Bundle\Service\Phpfastcache $phpfastcache
      * @return Response
      */
-    public function cacheMiss(Request $request, Phpfastcache $phpfastcache)
+    public function cacheTest(Request $request, Phpfastcache $phpfastcache)
     {
-        return JsonResponse::create(['result' => 'ok']);
+        $filecache = $phpfastcache->get('filecache');
+        $cacheItem = $filecache->getItem(__FUNCTION__);
+        $cacheHit = $cacheItem->isHit();
+
+        if(!$cacheHit){
+            $cacheItem->set(1337)->expiresAfter(5);
+            $filecache->save($cacheItem);
+        }
+
+        return JsonResponse::create([
+          'result' => 'ok',
+          'cache' => $cacheHit ? 'hit' : 'miss'
+        ]);
     }
 
     /**
@@ -55,8 +68,20 @@ class CacheController extends AbstractController
      * @param \Phpfastcache\Bundle\Service\Phpfastcache $phpfastcache
      * @return Response
      */
-    public function cacheHit(Request $request, Phpfastcache $phpfastcache)
+    public function cacheHttp(Request $request, Phpfastcache $phpfastcache)
     {
-        return JsonResponse::create(['result' => 'ok']);
+        return (new CacheableResponse($phpfastcache->get('filecache'), $request))->getResponse(__FUNCTION__, 10, function () {
+            return JsonResponse::create(['result' => 'ok']);
+        });
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Phpfastcache\Bundle\Service\Phpfastcache $phpfastcache
+     * @return Response
+     */
+    public function cacheError(Request $request, Phpfastcache $phpfastcache)
+    {
+        $phpfastcache->get('unexisting');
     }
 }

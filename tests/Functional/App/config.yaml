@@ -12,3 +12,13 @@ framework:
 web_profiler:
     toolbar: false
     intercept_redirects: false
+
+# PhpFastCache configuration
+phpfastcache:
+    twig_driver: "filecache" # This option must be a valid declared driver, in our example: "filecache"
+    twig_block_debug: true # This option will wrap CACHE/ENDCACHE blocks with block debug as HTML comment
+    drivers:
+        filecache:
+            type: Files
+            parameters:
+                path: "%kernel.cache_dir%/phpfastcache/"
