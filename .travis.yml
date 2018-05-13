@@ -9,11 +9,15 @@ php:
   - 7.2
   - nightly
 
+env:
+  global:
+    - SYMFONY_DEPRECATIONS_HELPER="weak_vendors"
+
 matrix:
   fast_finish: true
   allow_failures:
     - php: nightly
-    - env: COMPOSER_FLAGS="--prefer-lowest"
+    - env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak"
   include:
     - php: 7.0
       env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak"
@@ -29,10 +33,6 @@ sudo: false
 cache:
   directories:
     - $HOME/.composer/cache
-
-env:
-  global:
-    - SYMFONY_DEPRECATIONS_HELPER="weak_vendors"
 
 before_install:
   - phpenv config-rm xdebug.ini || true
