@@ -529,12 +529,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPSocialNetwork/phpfastcache.git",
-                "reference": "8c8f4f2e0c588e94410ba24ec85ecd460b7d8c89"
+                "reference": "b7a561d95c41ef1841d9eb14676d330a809e4b91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/8c8f4f2e0c588e94410ba24ec85ecd460b7d8c89",
-                "reference": "8c8f4f2e0c588e94410ba24ec85ecd460b7d8c89",
+                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/b7a561d95c41ef1841d9eb14676d330a809e4b91",
+                "reference": "b7a561d95c41ef1841d9eb14676d330a809e4b91",
                 "shasum": ""
             },
             "require": {
@@ -620,7 +620,7 @@
                 "zend memory cache",
                 "zend server"
             ],
-            "time": "2018-05-09T23:30:12+00:00"
+            "time": "2018-05-12T01:46:34+00:00"
         },
         {
             "name": "psr/cache",
@@ -2101,30 +2101,30 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9518db9d468f67c78e0724c0325a894d7ef47ee7"
+                "reference": "4d61c5ffdea4b9dd5484257fa2cc0e9bf6943cde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9518db9d468f67c78e0724c0325a894d7ef47ee7",
-                "reference": "9518db9d468f67c78e0724c0325a894d7ef47ee7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4d61c5ffdea4b9dd5484257fa2cc0e9bf6943cde",
+                "reference": "4d61c5ffdea4b9dd5484257fa2cc0e9bf6943cde",
                 "shasum": ""
             },
             "require": {
+                "doctrine/instantiator": "^1.1",
                 "ext-dom": "*",
                 "ext-json": "*",
                 "ext-libxml": "*",
                 "ext-mbstring": "*",
                 "ext-xml": "*",
-                "myclabs/deep-copy": "^1.6.1",
+                "myclabs/deep-copy": "^1.7",
                 "phar-io/manifest": "^1.0.1",
                 "phar-io/version": "^1.0",
                 "php": "^7.1",
                 "phpspec/prophecy": "^1.7",
-                "phpunit/php-code-coverage": "^6.0.1",
-                "phpunit/php-file-iterator": "^1.4.3",
+                "phpunit/php-code-coverage": "^6.0.4",
+                "phpunit/php-file-iterator": "^1.4.5",
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-timer": "^2.0",
-                "phpunit/phpunit-mock-objects": "^6.1.1",
                 "sebastian/comparator": "^3.0",
                 "sebastian/diff": "^3.0",
                 "sebastian/environment": "^3.1",
@@ -2134,10 +2134,14 @@
                 "sebastian/resource-operations": "^1.0",
                 "sebastian/version": "^2.0.1"
             },
+            "conflict": {
+                "phpunit/phpunit-mock-objects": "*"
+            },
             "require-dev": {
                 "ext-pdo": "*"
             },
             "suggest": {
+                "ext-soap": "*",
                 "ext-xdebug": "*",
                 "phpunit/php-invoker": "^2.0"
             },
@@ -2173,63 +2177,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-05-11T07:25:41+00:00"
-        },
-        {
-            "name": "phpunit/phpunit-mock-objects",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "a75f06cca35652683c2b993247cb9ab2f8c57fb9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/a75f06cca35652683c2b993247cb9ab2f8c57fb9",
-                "reference": "a75f06cca35652683c2b993247cb9ab2f8c57fb9",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/instantiator": "^1.0.5",
-                "php": "^7.1",
-                "phpunit/php-text-template": "^1.2.1",
-                "sebastian/exporter": "^3.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.0"
-            },
-            "suggest": {
-                "ext-soap": "*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "6.1-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
-                }
-            ],
-            "description": "Mock Object library for PHPUnit",
-            "homepage": "https://github.com/sebastianbergmann/phpunit-mock-objects/",
-            "keywords": [
-                "mock",
-                "xunit"
-            ],
-            "time": "2018-04-24T05:40:33+00:00"
+            "time": "2018-05-13T15:13:51+00:00"
         },
         {
             "name": "predis/predis",

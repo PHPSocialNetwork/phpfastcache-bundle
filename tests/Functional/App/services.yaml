@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        public: false
+        autoconfigure: true
+        autowire: true
+
+    logger:
+        class: Psr\Log\NullLogger
+
+    Phpfastcache\Bundle\Tests\Functional\App\Controller\:
+        resource: './Controller'
+        public: true
+        tags: ['controller.service_arguments']

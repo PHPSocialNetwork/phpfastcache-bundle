@@ -1,10 +1,17 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: Geolim4
- * Date: 12/05/2018
- * Time: 02:18
+ *
+ * This file is part of phpFastCache.
+ *
+ * @license MIT License (MIT)
+ *
+ * For full copyright and license information, please see the docs/CREDITS.txt file.
+ *
+ * @author Georges.L (Geolim4)  <contact@geolim4.com>
+ *
  */
+declare(strict_types=1);
 
 namespace Phpfastcache\Bundle\Response;
 
@@ -60,6 +67,10 @@ class CacheableResponse
             if($response instanceof Response){
                 $cacheItem->expiresAfter($expiresAfter);
 
+                /**
+                 * Alter response header to set
+                 * cache/expiration directives
+                 */
                 $response->setExpires($cacheItem->getExpirationDate());
                 $response->setSharedMaxAge($cacheItem->getTtl());
                 $response->headers->addCacheControlDirective('must-revalidate', true);
