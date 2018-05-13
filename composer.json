@@ -5,7 +5,7 @@
     "keywords": ["cache", "phpfastcache", "symfony", "php", "bundle"],
     "homepage": "http://www.phpfastcache.com",
     "license": "MIT",
-    "minimum-stability": "dev",
+    "minimum-stability": "rc",
     "authors": [
             {
                 "name": "Georges.L",
