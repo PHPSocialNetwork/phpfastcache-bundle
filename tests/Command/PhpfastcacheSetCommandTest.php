@@ -48,7 +48,8 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
           '--no-interaction' => true
         ]);
 
-        $this->assertRegExp('/Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . ' seconds/', $commandTester->getDisplay());
+        // Travis fix (.*) due to weird console screen width that truncate to next line
+        $this->assertRegExp('/Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . '(.*)seconds/', $commandTester->getDisplay());
     }
 
     /**
