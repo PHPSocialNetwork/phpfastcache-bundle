@@ -18,13 +18,12 @@ declare(strict_types=1);
 namespace Phpfastcache\Bundle\Command;
 
 use Phpfastcache\Bundle\Service\Phpfastcache;
-use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Exceptions\PhpfastcacheDriverCheckException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Command\Command;
 
 class PhpfastcacheCommand extends Command
 {
@@ -54,14 +53,13 @@ class PhpfastcacheCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('phpfastcache:clear')
-            ->setDescription('Clear phpfastcache cache')
-            ->addArgument(
-                'driver',
-                InputArgument::OPTIONAL,
-                'Cache name to clear'
-            )
-        ;
+          ->setName('phpfastcache:clear')
+          ->setDescription('Clear phpfastcache cache')
+          ->addArgument(
+            'driver',
+            InputArgument::OPTIONAL,
+            'Cache name to clear'
+          );
     }
 
     /**
@@ -76,11 +74,10 @@ class PhpfastcacheCommand extends Command
 
         $driver = $input->getArgument('driver');
 
-        $output->writeln("<bg=yellow;fg=red>Clearing cache operation can take a while, please be patient...</>");
+        $output->writeln('<bg=yellow;fg=red>Clearing cache operation can take a while, please be patient...</>');
 
-        $callback = function($name) use ($output, &$failedInstances)
-        {
-            try{
+        $callback = function ($name) use ($output, &$failedInstances) {
+            try {
                 if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                     $output->writeln("<fg=yellow>Clearing instance {$name} cache...</>");
                 }
@@ -88,11 +85,11 @@ class PhpfastcacheCommand extends Command
                 if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                     $output->writeln("<fg=green>Cache instance {$name} cleared</>");
                 }
-            }catch (PhpfastcacheDriverCheckException $e){
+            } catch (PhpfastcacheDriverCheckException $e) {
                 $failedInstances[] = $name;
                 if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-                    $output->writeln("<fg=red>Cache instance {$name} not cleared, got exception: " . "<bg=red;options=bold>" . $e->getMessage() ."</>");
-                }else{
+                    $output->writeln("<fg=red>Cache instance {$name} not cleared, got exception: " . '<bg=red;options=bold>' . $e->getMessage() . '</>');
+                } else {
                     $output->writeln("<fg=red>Cache instance {$name} not cleared (increase verbosity to get more information).</>");
                 }
             }
@@ -100,24 +97,24 @@ class PhpfastcacheCommand extends Command
 
         $caches = $this->parameters;
 
-        if($driver) {
-            if(\array_key_exists($driver, $caches['drivers'])){
+        if ($driver) {
+            if (\array_key_exists($driver, $caches[ 'drivers' ])) {
                 $callback($driver);
-                if(!\count($failedInstances)){
+                if (!\count($failedInstances)) {
                     $io->success("Cache instance {$driver} cleared");
-                }else{
+                } else {
                     $io->error("Cache instance {$driver} not cleared");
                 }
-            }else{
+            } else {
                 $io->error("Cache instance {$driver} does not exists");
             }
         } else {
-            foreach($caches['drivers'] as $name => $parameters) {
+            foreach ($caches[ 'drivers' ] as $name => $parameters) {
                 $callback($name);
             }
-            if(!\count($failedInstances)){
+            if (!\count($failedInstances)) {
                 $io->success('All caches instances got cleared');
-            }else{
+            } else {
                 $io->success('Almost all caches instances got cleared, except these: ' . \implode(', ', $failedInstances));
             }
         }
