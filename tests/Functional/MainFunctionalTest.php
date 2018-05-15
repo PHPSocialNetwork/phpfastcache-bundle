@@ -17,13 +17,7 @@ declare(strict_types=1);
 
 namespace Phpfastcache\Bundle\Tests\Functional;
 
-use Phpfastcache\Bundle\Tests\Functional\App\Kernel;
 use Phpfastcache\CacheManager as PhpfastcacheManager;
-use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -31,23 +25,14 @@ use Symfony\Component\HttpFoundation\Response;
  * @package Phpfastcache\Bundle\Tests\Functional
  * @runInSeparateProcesses
  */
-class MainFunctionalTest extends WebTestCase
+class MainFunctionalTest extends AbstractWebTestCase
 {
-    /** @var Client */
-    private $client;
-
-    protected function setUp()
-    {
-        $this->client = static::createClient();
-        PhpfastcacheManager::clearInstances();
-    }
-
     public function testCacheMiss()
     {
         $response = $this->profileRequest('GET', '/cache-test');
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertSame('miss', \json_decode($response->getContent(), true)['cache']);
+        $this->assertSame('miss', \json_decode($response->getContent(), true)[ 'cache' ]);
     }
 
     public function testCacheHit()
@@ -55,7 +40,7 @@ class MainFunctionalTest extends WebTestCase
         $response = $this->profileRequest('GET', '/cache-test');
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertSame('hit', \json_decode($response->getContent(), true)['cache']);
+        $this->assertSame('hit', \json_decode($response->getContent(), true)[ 'cache' ]);
     }
 
     public function testCacheError()
@@ -84,74 +69,9 @@ class MainFunctionalTest extends WebTestCase
          * The second request should be a HIT one with a 304 response
          */
         $response = $this->profileRequest('GET', '/cache-http', [
-          'If-None-Match' => $etag
+          'If-None-Match' => $etag,
         ]);
         $this->assertSame(Response::HTTP_NOT_MODIFIED, $response->getStatusCode());
         $this->assertSame('', trim($response->getContent()));
-    }
-
-    /**
-     * @param string $method
-     * @param string $uri
-     * @param array $headers
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    private function profileRequest(string $method, string $uri, array $headers = []): Response
-    {
-        $client = $this->client;
-        $client->enableProfiler();
-        $serverParameter = [];
-
-        foreach ($headers as $headerKey => $headerVal) {
-            $serverParameter['HTTP_' . \str_replace('-', '_', \strtoupper($headerKey))] = $headerVal;
-        }
-
-        $client->request($method, $uri, [], [], $serverParameter);
-
-        return $client->getResponse();
-    }
-
-    /**
-     * Manage schema and cleanup chores
-     */
-    public static function setUpBeforeClass()
-    {
-        static::deleteTmpDir();
-        $kernel = static::createClient()->getKernel();
-
-        /**
-         * Cleanup Phpfastcache cache
-         */
-        $application = new Application($kernel);
-        $command = $application->find('phpfastcache:clear');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute([
-          'command' => $command->getName(), '--no-interaction' => true
-        ]);
-    }
-
-    public static function tearDownAfterClass()
-    {
-        static::deleteTmpDir();
-    }
-
-    protected static function deleteTmpDir()
-    {
-        if (!file_exists($dir = __DIR__ . '/App/var')) {
-            return;
-        }
-
-        $fs = new Filesystem();
-        $fs->remove($dir);
-    }
-
-    /**
-     * @return string
-     */
-    protected static function getKernelClass()
-    {
-        require_once __DIR__ . '/App/Kernel.php';
-
-        return Kernel::class;
     }
 }
