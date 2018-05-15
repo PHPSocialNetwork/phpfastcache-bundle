@@ -25,7 +25,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class PhpfastcacheCommand extends Command
+class PhpfastcacheClearCommand extends Command
 {
     /**
      * @var \Phpfastcache\Bundle\Service\Phpfastcache

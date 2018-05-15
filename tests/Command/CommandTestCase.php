@@ -16,6 +16,8 @@
 namespace Phpfastcache\Bundle\Tests\Command;
 
 use Phpfastcache\Bundle\Service\Phpfastcache;
+use Phpfastcache\Core\Item\ExtendedCacheItemInterface;
+use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -69,10 +71,6 @@ abstract class CommandTestCase extends TestCase
           ->will($this->returnValue($this->container));
         $this->application = new Application($kernel);
 
-        $this->phpfastcache = $this->getMockBuilder(Phpfastcache::class)
-          ->setConstructorArgs([$this->phpfastcacheParameters])
-          ->getMock();
-
         $this->phpfastcacheParameters = [
           'twig_driver' => 'filecache',
           'twig_block_debug' => true,
@@ -83,7 +81,7 @@ abstract class CommandTestCase extends TestCase
                   'type' => 'Files',
                   'parameters' =>
                     [
-                      'path' => '%kernel.cache_dir%/phpfastcache/',
+                      'path' => \sys_get_temp_dir() . '/phpfastcache/',
                     ],
                 ],
               'staticcache' =>
@@ -93,6 +91,8 @@ abstract class CommandTestCase extends TestCase
                 ],
             ],
         ];
+
+        $this->phpfastcache = new Phpfastcache($this->phpfastcacheParameters);
 
         $command = $this->getCommand();
         $this->application->add($command);

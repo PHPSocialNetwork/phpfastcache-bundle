@@ -62,6 +62,10 @@ Or in your template:
     {% endcache %}
 </div>
 ```
+
+#### :computer: CLI command interactions
+@todo :|
+
 #### :bulb: Introducing Cacheable Responses (V3 only)
 As of the V3 there's a new, easier and cleaner way to setup HTTP cache to decrease your server bandwidth along with your CPU load: Cacheable Responses.
 And it's pretty easy to implement:

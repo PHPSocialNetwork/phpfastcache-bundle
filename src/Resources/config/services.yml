@@ -5,10 +5,6 @@ services:
         arguments:
             - '%phpfastcache%'
             - '@?debug.stopwatch'
-    Phpfastcache\Bundle\Command\PhpfastcacheCommand:
-        arguments: ['@Phpfastcache\Bundle\Service\Phpfastcache', '%phpfastcache%']
-        tags:
-            - { name: console.command }
     Phpfastcache\Bundle\Twig\HumanReadableExtension\Extension:
         tags:
             - { name: twig.extension }
@@ -29,3 +25,20 @@ services:
           - '@Phpfastcache\Bundle\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy'
         tags:
          - { name: twig.extension }
+    # CLI CRUD-like commands
+    Phpfastcache\Bundle\Command\PhpfastcacheClearCommand:
+        arguments: ['@Phpfastcache\Bundle\Service\Phpfastcache', '%phpfastcache%']
+        tags:
+            - { name: console.command }
+    Phpfastcache\Bundle\Command\PhpfastcacheGetCommand:
+        arguments: ['@Phpfastcache\Bundle\Service\Phpfastcache', '%phpfastcache%']
+        tags:
+            - { name: console.command }
+    Phpfastcache\Bundle\Command\PhpfastcacheSetCommand:
+        arguments: ['@Phpfastcache\Bundle\Service\Phpfastcache', '%phpfastcache%']
+        tags:
+            - { name: console.command }
+    Phpfastcache\Bundle\Command\PhpfastcacheDelCommand:
+        arguments: ['@Phpfastcache\Bundle\Service\Phpfastcache', '%phpfastcache%']
+        tags:
+            - { name: console.command }

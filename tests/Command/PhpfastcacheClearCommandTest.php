@@ -15,21 +15,23 @@
 
 namespace Phpfastcache\Bundle\Tests\Command;
 
-use Phpfastcache\Bundle\Command\PhpfastcacheCommand;
+use Phpfastcache\Bundle\Command\PhpfastcacheClearCommand;
+use Phpfastcache\CacheManager;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * PhpfastcacheCommandTest
  */
-class PhpfastcacheCommandTest extends CommandTestCase
+class PhpfastcacheClearCommandTest extends CommandTestCase
 {
 
     public function setUp()
     {
+        CacheManager::clearInstances();
         parent::setUp();
     }
 
-    public function testCommandOptionWithoutSpecifiedDriver()
+    public function testCommandClearAllCacheInstances()
     {
         $command = $this->application->find('phpfastcache:clear');
         $commandTester = new CommandTester($command);
@@ -41,7 +43,7 @@ class PhpfastcacheCommandTest extends CommandTestCase
         $this->assertRegExp('/All caches instances got cleared/', $commandTester->getDisplay());
     }
 
-    public function testCommandOptionWithExistingDriver()
+    public function testCommandClearSingleCacheInstance()
     {
         $command = $this->application->find('phpfastcache:clear');
         $commandTester = new CommandTester($command);
@@ -62,24 +64,24 @@ class PhpfastcacheCommandTest extends CommandTestCase
         $this->assertRegExp('/Cache instance staticcache cleared/', $commandTester->getDisplay());
     }
 
-    public function testCommandOptionWithNotExistingDriver()
+    public function testCommandClearInvalidCacheInstance()
     {
         $command = $this->application->find('phpfastcache:clear');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
           'command' => $command->getName(),
-          'driver' => 'notExisting',
+          'driver' => 'invalidCache',
           '--no-interaction' => true
         ]);
 
-        $this->assertRegExp('/Cache instance notExisting does not exists/', $commandTester->getDisplay());
+        $this->assertRegExp('/Cache instance invalidCache does not exists/', $commandTester->getDisplay());
     }
 
     /**
-     * @return \Phpfastcache\Bundle\Command\PhpfastcacheCommand
+     * @return \Phpfastcache\Bundle\Command\PhpfastcacheClearCommand
      */
     protected function getCommand()
     {
-        return new PhpfastcacheCommand($this->phpfastcache, $this->phpfastcacheParameters);
+        return new PhpfastcacheClearCommand($this->phpfastcache, $this->phpfastcacheParameters);
     }
 }
