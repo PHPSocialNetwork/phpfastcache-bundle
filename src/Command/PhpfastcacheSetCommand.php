@@ -106,7 +106,7 @@ class PhpfastcacheSetCommand extends Command
             $io->section($driver);
             $driverInstance = $this->phpfastcache->get($driver);
             $cacheItem = $driverInstance->getItem($cacheKey);
-            $castedCacheValue = (bool) $this->autoTypeCast($cacheValue);
+            $castedCacheValue = $this->autoTypeCast($cacheValue);
 
             $cacheItem->set($autoTypeCast ? $castedCacheValue : $cacheValue);
 
