@@ -64,7 +64,41 @@ Or in your template:
 ```
 
 #### :computer: CLI command interactions
-@todo :|
+As of the V3, some command-line tools were introduced, mostly for CRUD-like operations.
+
+##### GET operation
+```bash
+php bin/console phpfastcache:get filecache cacheKey
+```
+This will display the content of a cache item if it eventually exists.
+
+
+##### SET operation
+```bash
+php bin/console phpfastcache:get filecache cacheKey '{"a": 14}' 300 -a 1
+```
+This will set the content of a cache item. 
+The TTL (300), in seconds, is optional and take the default value filled in your configuration file.
+The `auto-type-cast` option  _"-a"_ (enabled by default) will let allows you to automatically type cast your variable.
+`false` and `true` will be converted to _boolean_.
+`null` will be converted to _null_.
+`1337` and `1337.666` will be converted to _integer_ or _float_.
+`{"a": 14}` will be converted to an associative _array_ using a JSON detection
+You can obviously disable this behavior by turning off the `auto-type-cast` option: `-a 0`
+
+##### DELETE operation
+```bash
+php bin/console phpfastcache:del filecache cacheKey
+```
+This will delete the specified cache item. 
+
+##### CLEAR operation
+```bash
+php bin/console phpfastcache:clear filecache
+# OR to clear every caches:
+php bin/console phpfastcache:clear
+```
+This will clear a single cache instance if specified or all the configured cache instances otherwise.
 
 #### :bulb: Introducing Cacheable Responses (V3 only)
 As of the V3 there's a new, easier and cleaner way to setup HTTP cache to decrease your server bandwidth along with your CPU load: Cacheable Responses.
