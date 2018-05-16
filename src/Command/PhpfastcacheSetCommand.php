@@ -22,6 +22,7 @@ use Phpfastcache\Exceptions\PhpfastcacheDriverCheckException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -74,7 +75,15 @@ class PhpfastcacheSetCommand extends Command
             'ttl',
             InputArgument::OPTIONAL,
             'Cache ttl (in second)'
-          );
+          )
+          ->addOption(
+            'auto-type-cast',
+            'a',
+            InputOption::VALUE_OPTIONAL,
+            'Allows to automatically type-cast the value of the cache item.',
+            1
+          )
+        ;
     }
 
     /**
@@ -91,12 +100,15 @@ class PhpfastcacheSetCommand extends Command
         $cacheKey = $input->getArgument('key');
         $cacheValue = $input->getArgument('value');
         $cacheTtl = $input->getArgument('ttl');
+        $autoTypeCast = $input->getOption('auto-type-cast');
 
         if (\array_key_exists($driver, $caches[ 'drivers' ])) {
             $io->section($driver);
             $driverInstance = $this->phpfastcache->get($driver);
             $cacheItem = $driverInstance->getItem($cacheKey);
-            $cacheItem->set($cacheValue);
+            $castedCacheValue = (bool) $this->autoTypeCast($cacheValue);
+
+            $cacheItem->set($autoTypeCast ? $castedCacheValue : $cacheValue);
 
             if($cacheTtl){
                 if(\is_numeric($cacheTtl)){
@@ -107,11 +119,45 @@ class PhpfastcacheSetCommand extends Command
                 }
             }
 
-            $io->success(\sprintf('Cache item "%s" set to "%s" for %d seconds', $cacheKey, $cacheValue, $cacheItem->getTtl()));
+            if($autoTypeCast && $castedCacheValue !== $cacheValue){
+                $io->success(\sprintf('Cache item "%s" set to "%s" for %d seconds (automatically type-casted to %s)', $cacheKey, $cacheValue, $cacheItem->getTtl(), \gettype($castedCacheValue)));
+            }else{
+                $io->success(\sprintf('Cache item "%s" set to "%s" for %d seconds', $cacheKey, $cacheValue, $cacheItem->getTtl()));
+            }
 
             $driverInstance->save($cacheItem);
         } else {
             $io->error("Cache instance {$driver} does not exists");
         }
+    }
+
+    /**
+     * @param $string
+     * @return bool|float|int|null|array
+     */
+    protected function autoTypeCast($string)
+    {
+        if(\in_array($string, ['true', 'false'], true)){
+            return $string === 'true';
+        }
+
+        if($string === 'null'){
+            return null;
+        }
+
+        if(\is_numeric($string))
+        {
+            if(\strpos($string, '.') !== false){
+                return (float) $string;
+            }
+            return (int) $string;
+        }
+
+        $jsonArray = json_decode($string, true);
+        if(json_last_error() === JSON_ERROR_NONE){
+            return (array) $jsonArray;
+        }
+
+        return $string;
     }
 }
