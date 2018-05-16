@@ -2,8 +2,9 @@
 # Symfony Flex PhpFastCache Bundle
 
 #### :warning: Please note that the V3 is a major (BC breaking) update of the PhpFastCache Bundle !
-> As of the V3 the bundle is **absolutely** not compatible with previous versions.To ensure you the smoothest migration possible, please check the migration guide in the Resources/Docs directory.
-> One of the biggest change is the Phpfastcache's dependency which is not set to the v7 which it not backward compatible at all.
+> As of the V3 the bundle is **absolutely** not compatible with previous versions.\
+To ensure you the smoothest migration possible, please check the migration guide in the Resources/Docs directory.\
+One of the biggest change is the Phpfastcache's dependency which is not set to the v7 which it not backward compatible at all.
 
 #### :thumbsup: Step 1: Include phpFastCache Bundle in your project with composer:
 
@@ -77,13 +78,15 @@ This will display the content of a cache item if it eventually exists.
 ```bash
 php bin/console phpfastcache:get filecache cacheKey '{"a": 14}' 300 -a 1
 ```
-This will set the content of a cache item. 
-The TTL (300), in seconds, is optional and take the default value filled in your configuration file.
-The `auto-type-cast` option  _"-a"_ (enabled by default) will let allows you to automatically type cast your variable.
-`false` and `true` will be converted to _boolean_.
-`null` will be converted to _null_.
-`1337` and `1337.666` will be converted to _integer_ or _float_.
-`{"a": 14}` will be converted to an associative _array_ using a JSON detection
+This will set the content of a cache item.\
+The TTL (300), in seconds, is optional and take the default value filled in your configuration file.\
+The `auto-type-cast` option  _"-a"_ (enabled by default) will let allows you to automatically type cast your variable:
+- `false` and `true` will be respectively converted to _boolean_.
+- `1337` and `1337.666` will be respectively be converted to _integer_ or _float_.
+- `null` will be converted to _null_.
+- `{"a": 14}` will be converted to an associative _array_ using a JSON detection
+- `a regular string` will remains unchanged and stays a string
+
 You can obviously disable this behavior by turning off the `auto-type-cast` option: `-a 0`
 
 ##### DELETE operation
