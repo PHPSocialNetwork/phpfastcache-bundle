@@ -54,6 +54,7 @@ class PhpfastcacheClearCommand extends Command
     {
         $this
           ->setName('phpfastcache:clear')
+          ->setAliases(['phpfastcache:clean', 'phpfastcache:flush'])
           ->setDescription('Clear phpfastcache cache')
           ->addArgument(
             'driver',
