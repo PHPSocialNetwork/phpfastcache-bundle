@@ -49,7 +49,7 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
         ]);
 
         // Travis fix (.*) due to weird console screen width that truncate to next line
-        $this->assertRegExp('/Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertRegExp('/Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . '/', $commandTester->getDisplay());
     }
 
     /**
