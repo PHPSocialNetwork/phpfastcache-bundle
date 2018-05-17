@@ -28,6 +28,7 @@ class PhpfastcacheClearCommandTest extends CommandTestCase
     public function setUp()
     {
         CacheManager::clearInstances();
+        putenv('COLUMNS=200');
         parent::setUp();
     }
 
