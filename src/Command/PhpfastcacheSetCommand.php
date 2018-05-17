@@ -100,7 +100,7 @@ class PhpfastcacheSetCommand extends Command
         $cacheKey = $input->getArgument('key');
         $cacheValue = $input->getArgument('value');
         $cacheTtl = $input->getArgument('ttl');
-        $autoTypeCast = $input->getOption('auto-type-cast');
+        $autoTypeCast = (bool) $input->getOption('auto-type-cast');
 
         if (\array_key_exists($driver, $caches[ 'drivers' ])) {
             $io->section($driver);
@@ -119,10 +119,21 @@ class PhpfastcacheSetCommand extends Command
                 }
             }
 
-            if($autoTypeCast && $castedCacheValue !== $cacheValue){
-                $io->success(\sprintf('Cache item "%s" set to "%s" for %d seconds (automatically type-casted to %s)', $cacheKey, $cacheValue, $cacheItem->getTtl(), \gettype($castedCacheValue)));
-            }else{
-                $io->success(\sprintf('Cache item "%s" set to "%s" for %d seconds', $cacheKey, $cacheValue, $cacheItem->getTtl()));
+            if(!$autoTypeCast || $castedCacheValue === $cacheValue) {
+                $io->success(\sprintf(
+                  'Cache item "%s" set to "%s" for %d seconds',
+                  $cacheKey,
+                  $cacheValue,
+                  $cacheItem->getTtl()
+                ));
+            } else {
+                $io->success(\sprintf(
+                  'Cache item "%s" set to "%s" for %d seconds (automatically type-casted to %s)',
+                  $cacheKey,
+                  $cacheValue,
+                  $cacheItem->getTtl(),
+                  \gettype($castedCacheValue)
+                ));
             }
 
             $driverInstance->save($cacheItem);
@@ -137,11 +148,11 @@ class PhpfastcacheSetCommand extends Command
      */
     protected function autoTypeCast($string)
     {
-        if(\in_array($string, ['true', 'false'], true)){
+        if(\in_array(\strtolower($string), ['true', 'false'], true)){
             return $string === 'true';
         }
 
-        if($string === 'null'){
+        if(\strtolower($string) === 'null'){
             return null;
         }
 

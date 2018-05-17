@@ -48,8 +48,139 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
           '--no-interaction' => true
         ]);
 
-        // Travis fix (.*) due to weird console screen width that truncate to next line
-        $this->assertRegExp('/Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . '/', $commandTester->getDisplay());
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+    }
+
+    public function testCommandSetCacheItemWithAutomaticTypeCastingBoolean()
+    {
+        $value = 'true';
+        $ttl = \random_int(2, 10);
+        $key = 'test' . \random_int(1000, 1999);
+
+        $command = $this->application->find('phpfastcache:set');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+          'command' => $command->getName(),
+          'driver' => 'filecache',
+          'key' => $key,
+          'value' => $value,
+          'ttl' => $ttl,
+          '-a' => 1,
+          '--no-interaction' => true
+        ]);
+
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('(automatically type-casted to boolean)', $commandTester->getDisplay(), true);
+    }
+
+    public function testCommandSetCacheItemWithAutomaticTypeCastingInteger()
+    {
+        $value = '1337';
+        $ttl = \random_int(2, 10);
+        $key = 'test' . \random_int(1000, 1999);
+
+        $command = $this->application->find('phpfastcache:set');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+          'command' => $command->getName(),
+          'driver' => 'filecache',
+          'key' => $key,
+          'value' => $value,
+          'ttl' => $ttl,
+          '-a' => 1,
+          '--no-interaction' => true
+        ]);
+
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('(automatically type-casted to integer)', $commandTester->getDisplay(), true);
+    }
+
+    public function testCommandSetCacheItemWithAutomaticTypeCastingFloat()
+    {
+        $value = '1337.666';
+        $ttl = \random_int(2, 10);
+        $key = 'test' . \random_int(1000, 1999);
+
+        $command = $this->application->find('phpfastcache:set');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+          'command' => $command->getName(),
+          'driver' => 'filecache',
+          'key' => $key,
+          'value' => $value,
+          'ttl' => $ttl,
+          '-a' => 1,
+          '--no-interaction' => true
+        ]);
+
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('(automatically type-casted to double)', $commandTester->getDisplay(), true);
+    }
+
+    public function testCommandSetCacheItemWithAutomaticTypeCastingNull()
+    {
+        $value = 'null';
+        $ttl = \random_int(2, 10);
+        $key = 'test' . \random_int(1000, 1999);
+
+        $command = $this->application->find('phpfastcache:set');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+          'command' => $command->getName(),
+          'driver' => 'filecache',
+          'key' => $key,
+          'value' => $value,
+          'ttl' => $ttl,
+          '-a' => 1,
+          '--no-interaction' => true
+        ]);
+
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('(automatically type-casted to NULL)', $commandTester->getDisplay(), true);
+    }
+
+    public function testCommandSetCacheItemWithAutomaticTypeCastingJson()
+    {
+        $value = '{"test": 1337}';
+        $ttl = \random_int(2, 10);
+        $key = 'test' . \random_int(1000, 1999);
+
+        $command = $this->application->find('phpfastcache:set');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+          'command' => $command->getName(),
+          'driver' => 'filecache',
+          'key' => $key,
+          'value' => $value,
+          'ttl' => $ttl,
+          '-a' => 1,
+          '--no-interaction' => true
+        ]);
+
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('(automatically type-casted to array)', $commandTester->getDisplay(), true);
+    }
+
+    public function testCommandSetCacheItemWithoutAutomaticTypeCasting()
+    {
+        $value = 'null';
+        $ttl = \random_int(2, 10);
+        $key = 'test' . \random_int(1000, 1999);
+
+        $command = $this->application->find('phpfastcache:set');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+          'command' => $command->getName(),
+          'driver' => 'filecache',
+          'key' => $key,
+          'value' => $value,
+          'ttl' => $ttl,
+          '-a' => 0,
+          '--no-interaction' => true
+        ]);
+
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertNotContains('(automatically type-casted to NULL)', $commandTester->getDisplay(), true);
     }
 
     /**
