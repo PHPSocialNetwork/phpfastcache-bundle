@@ -28,7 +28,7 @@ class PhpfastcacheGetCommandTest extends CommandTestCase
     public function setUp()
     {
         CacheManager::clearInstances();
-        putenv('COLUMNS=200');
+        putenv('COLUMNS=200');// Prevent broken console rendering  with unit tests
         parent::setUp();
     }
 

@@ -28,7 +28,7 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
     public function setUp()
     {
         CacheManager::clearInstances();
-        putenv('COLUMNS=200');
+        putenv('COLUMNS=200');// Prevent broken console rendering  with unit tests
         parent::setUp();
     }
 
@@ -49,7 +49,7 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
           '--no-interaction' => true
         ]);
 
-        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . ' seconds', $commandTester->getDisplay());
     }
 
     public function testCommandSetCacheItemWithAutomaticTypeCastingBoolean()
@@ -70,7 +70,7 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
           '--no-interaction' => true
         ]);
 
-        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . ' seconds', $commandTester->getDisplay());
         $this->assertContains('(automatically type-casted to boolean)', $commandTester->getDisplay(), true);
     }
 
@@ -92,7 +92,7 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
           '--no-interaction' => true
         ]);
 
-        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . ' seconds', $commandTester->getDisplay());
         $this->assertContains('(automatically type-casted to integer)', $commandTester->getDisplay(), true);
     }
 
@@ -114,7 +114,7 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
           '--no-interaction' => true
         ]);
 
-        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . ' seconds', $commandTester->getDisplay());
         $this->assertContains('(automatically type-casted to double)', $commandTester->getDisplay(), true);
     }
 
@@ -136,7 +136,7 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
           '--no-interaction' => true
         ]);
 
-        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . ' seconds', $commandTester->getDisplay());
         $this->assertContains('(automatically type-casted to NULL)', $commandTester->getDisplay(), true);
     }
 
@@ -158,7 +158,7 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
           '--no-interaction' => true
         ]);
 
-        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . ' seconds', $commandTester->getDisplay());
         $this->assertContains('(automatically type-casted to array)', $commandTester->getDisplay(), true);
     }
 
@@ -180,7 +180,7 @@ class PhpfastcacheSetCommandTest extends CommandTestCase
           '--no-interaction' => true
         ]);
 
-        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl, $commandTester->getDisplay());
+        $this->assertContains('Cache item "' . $key . '" set to "' . $value . '" for ' . $ttl . ' seconds', $commandTester->getDisplay());
         $this->assertNotContains('(automatically type-casted to NULL)', $commandTester->getDisplay(), true);
     }
 
