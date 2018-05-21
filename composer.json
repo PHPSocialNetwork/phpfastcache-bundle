@@ -1,7 +1,7 @@
 {
     "name": "phpfastcache/phpfastcache-bundle",
     "type" : "symfony-bundle",
-    "description": "PHP Bundle",
+    "description": "Phpfastcache Bundle for Symfony integration",
     "keywords": ["cache", "phpfastcache", "symfony", "php", "bundle"],
     "homepage": "http://www.phpfastcache.com",
     "license": "MIT",
