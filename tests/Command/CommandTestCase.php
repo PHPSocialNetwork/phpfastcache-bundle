@@ -16,12 +16,14 @@
 namespace Phpfastcache\Bundle\Tests\Command;
 
 use Phpfastcache\Bundle\Service\Phpfastcache;
+use Phpfastcache\CacheManager;
 use Phpfastcache\Core\Item\ExtendedCacheItemInterface;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Base Class for command tests
@@ -30,6 +32,8 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 abstract class CommandTestCase extends TestCase
 {
+
+    protected $ymlConfigFile = __DIR__ . '/../Resources/Config/phpfastcache.yaml';
 
     /**
      * @var \Symfony\Bundle\FrameworkBundle\Console\Application
@@ -57,6 +61,8 @@ abstract class CommandTestCase extends TestCase
      */
     public function setUp()
     {
+        CacheManager::clearInstances();
+        putenv('COLUMNS=200');// Prevent broken console rendering  with unit tests
         $this->container = $this->getMockBuilder('\\Symfony\\Component\\DependencyInjection\\ContainerInterface')->getMock();
 
         /** @var Kernel|MockObject $kernel */
@@ -71,26 +77,9 @@ abstract class CommandTestCase extends TestCase
           ->will($this->returnValue($this->container));
         $this->application = new Application($kernel);
 
-        $this->phpfastcacheParameters = [
-          'twig_driver' => 'filecache',
-          'twig_block_debug' => true,
-          'drivers' =>
-            [
-              'filecache' =>
-                [
-                  'type' => 'Files',
-                  'parameters' =>
-                    [
-                      'path' => \sys_get_temp_dir() . '/phpfastcache/',
-                    ],
-                ],
-              'staticcache' =>
-                [
-                  'type' => 'Memstatic',
-                  'parameters' => [],
-                ],
-            ],
-        ];
+        $parameters = Yaml::parse(\file_get_contents($this->ymlConfigFile));
+
+        $this->phpfastcacheParameters = $parameters['phpfastcache'];
 
         $this->phpfastcache = new Phpfastcache($this->phpfastcacheParameters);
 

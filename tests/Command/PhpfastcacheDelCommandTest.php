@@ -24,14 +24,6 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class PhpfastcacheDelCommandTest extends CommandTestCase
 {
-
-    public function setUp()
-    {
-        CacheManager::clearInstances();
-        putenv('COLUMNS=200');// Prevent broken console rendering  with unit tests
-        parent::setUp();
-    }
-
     public function testCommandSetCacheItem()
     {
         $value = \md5(\random_bytes(255));

@@ -1,0 +1,20 @@
+# PhpFastCache unit tests configuration
+phpfastcache:
+    twig_driver: "filecache" # This option must be a valid declared driver, in our example: "filecache"
+    twig_block_debug: true # This option will wrap CACHE/ENDCACHE blocks with block debug as HTML comment
+    drivers:
+        filecache:
+            type: Files
+            parameters:
+                path: '' # Automatic
+        memorycache:
+            type: Files
+            parameters:
+                path: '' # Automatic
+                itemDetailedDate: true
+                preventCacheSlams: true
+                cacheFileExtension: db
+                securityKey: symfony-flex-test
+        staticcache:
+            type: Memstatic
+            parameters: []

@@ -69,6 +69,7 @@ class AbstractWebTestCase extends WebTestCase
     public static function setUpBeforeClass()
     {
         static::deleteTmpDir();
+        PhpfastcacheManager::clearInstances();
         $kernel = static::createClient()->getKernel();
 
         /**
