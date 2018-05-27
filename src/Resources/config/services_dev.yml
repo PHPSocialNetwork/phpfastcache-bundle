@@ -1,0 +1,11 @@
+services:
+    Phpfastcache\Bundle\DataCollector\CacheCollector:
+        arguments:
+            - '@Phpfastcache\Bundle\Service\Phpfastcache'
+        public: false
+        tags:
+            -
+                name:     data_collector
+                template: "@Phpfastcache/Collector/cache.html.twig"
+                id:       'phpfastcache'
+                priority: 300

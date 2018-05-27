@@ -1,0 +1,44 @@
+services:
+    Phpfastcache\Bundle\Service\Phpfastcache:
+        autowire: true
+        public: false
+        arguments:
+            - '%phpfastcache%'
+            - '@?debug.stopwatch'
+    Phpfastcache\Bundle\Twig\HumanReadableExtension\Extension:
+        tags:
+            - { name: twig.extension }
+    phpfastcache.twig_cache_driver_provider:
+        class: 'Phpfastcache\Bundle\Service\Phpfastcache'
+        factory: 'Phpfastcache\Bundle\Service\Phpfastcache:getTwigCacheInstance'
+    Phpfastcache\Bundle\Twig\CacheExtension\CacheProvider\PsrCacheAdapter:
+        arguments:
+             - '@phpfastcache.twig_cache_driver_provider'
+    Phpfastcache\Bundle\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy:
+        public: false
+        arguments:
+            - '@Phpfastcache\Bundle\Twig\CacheExtension\CacheProvider\PsrCacheAdapter'
+            - '@?Phpfastcache\Bundle\DataCollector\CacheCollector'
+            - '%phpfastcache%'
+    Phpfastcache\Bundle\Twig\CacheExtension\Extension:
+        arguments:
+          - '@Phpfastcache\Bundle\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy'
+        tags:
+         - { name: twig.extension }
+    # CLI CRUD-like commands
+    Phpfastcache\Bundle\Command\PhpfastcacheClearCommand:
+        arguments: ['@Phpfastcache\Bundle\Service\Phpfastcache', '%phpfastcache%']
+        tags:
+            - { name: console.command }
+    Phpfastcache\Bundle\Command\PhpfastcacheGetCommand:
+        arguments: ['@Phpfastcache\Bundle\Service\Phpfastcache', '%phpfastcache%']
+        tags:
+            - { name: console.command }
+    Phpfastcache\Bundle\Command\PhpfastcacheSetCommand:
+        arguments: ['@Phpfastcache\Bundle\Service\Phpfastcache', '%phpfastcache%']
+        tags:
+            - { name: console.command }
+    Phpfastcache\Bundle\Command\PhpfastcacheDelCommand:
+        arguments: ['@Phpfastcache\Bundle\Service\Phpfastcache', '%phpfastcache%']
+        tags:
+            - { name: console.command }
