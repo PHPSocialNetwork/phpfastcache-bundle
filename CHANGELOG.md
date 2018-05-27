@@ -1,5 +1,5 @@
 ## 3.0.0
-##### 1 june 2018
+##### 27 may 2018
 
 - Added Symfony 4 (Flex) compatibility (thanks to @Pastisd)
 - Updated Phpfastcache service which is now private, use Symfony [D.I](https://symfony.com/doc/current/components/dependency_injection.html) instead.
